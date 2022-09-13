@@ -1,0 +1,56 @@
+.sort-by-price{
+    text-align: right;
+    margin-top: 10px;
+    span{
+        padding-bottom: 1px;
+        border-bottom: .5px dotted gray;
+        cursor: pointer;
+
+    }
+}
+.sort-by-price__ul{
+position: absolute;
+top: 5px;
+right: 0;
+text-align: right;
+border-radius: 5px;
+border: .5px solid gray;
+z-index: 100;
+padding: 5px;
+background-color: white;
+}
+.sort-by-price__li{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.pizzablock__reset-filters{
+    background-color: var(--red);
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bolder;
+    font-size: 12px;
+    transition: .2s all;
+    &:hover{
+        transform: scale(110%);
+    }
+}
+
+.pizzablock__price{
+    font-size: 18px;
+    cursor:context-menu;
+}
+.pizzablock__addCart-btn{
+    padding: 2px 5px;
+    background-color: var(--lgreen);
+    border-radius: 5px;
+    border: .5px solid gray;
+
+}
+.pizzablock__title{
+    cursor:pointer;
+}

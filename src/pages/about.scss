@@ -1,0 +1,13 @@
+.about{
+    .container {
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    &__present-img{
+        display: block;
+        margin: 20px 0;
+    }
+}

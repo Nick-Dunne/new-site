@@ -1,0 +1,35 @@
+
+.afterOrder-modal{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.692);
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    .afterOrder-modal__content{
+        position: relative;
+        width: 50%;
+        height: 50%;
+        background-color: white;
+        border-radius: 5px;
+        border: .5px solid gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+
+        button{
+            margin-top: 30px;
+            width: 200px;
+           border: .5px solid gray;
+            border-radius: 5px;
+            background-color: var(--lgreen);
+        }
+    }
+}

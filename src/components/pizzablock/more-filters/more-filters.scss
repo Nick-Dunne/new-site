@@ -1,0 +1,49 @@
+.pizzablock{
+
+    &__more-wrapper{
+        height: 200px;
+    }
+
+    &__more-filters{
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-end; 
+    }
+    &__more-cat-ul{
+        padding: 10px;
+        border: .5px solid gray;
+        background-color: white;
+        border-radius: 5px;
+        height: 200px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    &__more-cat-li{
+        text-align: left;
+     
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    &__more-cat{
+        font-weight: bold;
+        margin-bottom: 7px;
+        text-transform: uppercase;
+
+    }
+    &__more-ingr{
+        font-size: 10px;
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+        &-active{
+            color: rgb(0, 184, 0);
+            font-weight: bolder;
+            &:after{
+                content: ' ✔';
+            }
+        }
+    }
+}

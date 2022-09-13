@@ -1,0 +1,167 @@
+.order{
+    &__way-to-get{
+        margin-top: 20px;
+        
+    }
+    &__self-service{
+        margin-left: 20px;
+    }
+    &__add-fieldset{
+        margin-top: 10px;
+        background-color: var(--bg);
+        border: .5px solid gray;
+    }
+    &__comments{
+        padding: 5px;
+        width: 500px;
+        min-height: 100px;
+        resize: none;
+    }
+    &__form-totalPrice{
+        text-align: center;
+        margin-top: 20px;
+    }
+    &__submit-btn{
+        display: block;
+        margin: 20px auto;
+        border: .5px solid gray;
+        border-radius: 5px;
+        background-color: var(--lgreen);
+        padding: 2px;
+    }
+}
+
+.way-to-get__btn{
+    width: 100px;
+    border: .5px solid gray;
+    padding: 2px;
+    border-radius: 5px;
+    background-color: white;
+    margin-right: 20px;
+}
+.way-to-get--active{
+    background-color: var(--grayfund);
+    color: white;
+}
+.delivery{
+    margin-top: 20px;
+    background-color: white;
+    filter: drop-shadow(0px 0px 8px gray);
+    border-radius: 5px;
+    padding: 2px 10px 15px 10px;
+    label{
+        margin-right: 5px;
+    }
+
+
+    &__contact-fieldset{
+        margin-top: 10px;
+        background-color: var(--bg);
+        border: .5px solid gray;
+        display: flex;
+    }
+    &__address-fieldset{
+        margin-top: 10px;
+        background-color: var(--bg);
+        border: .5px solid gray;
+    }
+    &__city{
+        display: inline-block;
+        border-bottom: .5px dotted gray;
+      
+    }
+    &__data-fieldset{
+        margin-top: 10px;
+        background-color: var(--bg);
+        border: .5px solid gray;
+    }
+    &__data-choose-wrapper{
+        display: flex;
+        margin-top: 10px;
+        
+    }
+    &__pay-fieldset{
+        margin-top: 10px;
+        background-color: var(--bg);
+        border: .5px solid gray;
+    }
+    .react-datepicker-wrapper{
+        display: inline-block;
+        width: auto;
+        &:not(:first-child){
+            margin-left: 20px;
+        }
+        input{
+            padding: 5px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+
+}
+.clarify{
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+    border-bottom: .5px dotted gray;
+}
+.custom-radio{
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: top;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: .5px solid gray;
+    border-radius: 50%;
+   
+}
+.onTheData{
+    margin-left: 20px;
+}
+.checked{
+    background-color:var(--grayfund); 
+}
+.asFast, .onTheData{
+    cursor: pointer;
+}
+
+.react-tel-input{
+    display: inline-block;
+}
+.special-label{
+  display: none;
+}
+.delivery__contact-phone-wrapper{
+    margin-left: 10px;
+}
+
+.delivery input{
+    padding: 2px;
+}
+
+.delivery__address-first-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    margin-top: 15px
+}
+.delivery__address-second-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    margin-top: 15px
+}
+.delivery-label-star{
+    &:after{
+        content: '*';
+        display: inline-block;
+        color: var(--red);
+    }
+}
+.delivery-note-about-call{
+    margin-top: 5px;
+    color: var(--red);
+
+}
