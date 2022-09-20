@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.3dc7d257.css",
-    "main.js": "/static/js/main.524c5a87.js",
-    "static/media/55.png": "/static/media/55.c63dd78f09c3a1d74d56.png",
-    "static/media/spinner.gif": "/static/media/spinner.b27a046e745929b5b0b4.gif",
-    "static/media/futura-demic.woff2": "/static/media/futura-demic.aec6b788526c3dfb7b12.woff2",
-    "static/media/M2T.png": "/static/media/M2T.8f225001f936a9b4a46c.png",
-    "static/media/phone.svg": "/static/media/phone.369043b3818b291933b9e26fbeedb478.svg",
-    "index.html": "/index.html",
-    "main.3dc7d257.css.map": "/static/css/main.3dc7d257.css.map",
-    "main.524c5a87.js.map": "/static/js/main.524c5a87.js.map"
+    "main.css": "/new-site/static/css/main.bf60c6a8.css",
+    "main.js": "/new-site/static/js/main.85b71571.js",
+    "static/media/55.png": "/new-site/static/media/55.c63dd78f09c3a1d74d56.png",
+    "static/media/spinner.gif": "/new-site/static/media/spinner.b27a046e745929b5b0b4.gif",
+    "static/media/futura-demic.woff2": "/new-site/static/media/futura-demic.aec6b788526c3dfb7b12.woff2",
+    "static/media/M2T.png": "/new-site/static/media/M2T.8f225001f936a9b4a46c.png",
+    "static/media/phone.svg": "/new-site/static/media/phone.369043b3818b291933b9e26fbeedb478.svg",
+    "index.html": "/new-site/index.html",
+    "main.bf60c6a8.css.map": "/new-site/static/css/main.bf60c6a8.css.map",
+    "main.85b71571.js.map": "/new-site/static/js/main.85b71571.js.map"
   },
   "entrypoints": [
-    "static/css/main.3dc7d257.css",
-    "static/js/main.524c5a87.js"
+    "static/css/main.bf60c6a8.css",
+    "static/js/main.85b71571.js"
   ]
 }
