@@ -21,7 +21,8 @@ const Order = ()=>{
     console.log(orderSuccess)
     return (
         <>
-        <h2>Оформлення замовлення</h2>
+        <div className="order__wrapper">
+        <h2 className='order__title'>Оформлення замовлення</h2>
 
         <div className="order__way-to-get">
             <button 
@@ -38,6 +39,7 @@ const Order = ()=>{
         {orderSuccess === 'pending' ?  <AfterOrderPage orderSuccess={orderSuccess}/> : null}
         {orderSuccess === 'yes' ? <AfterOrderPage orderSuccess={orderSuccess}/> : null}
         {orderSuccess === 'no' ? <AfterOrderPage orderSuccess={orderSuccess}/> : null}
+        </div>
         </>
     )
 }

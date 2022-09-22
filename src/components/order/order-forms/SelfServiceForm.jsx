@@ -2,16 +2,16 @@ import {useState, useEffect, useRef} from 'react';
 import { useDispatch } from 'react-redux';
 import { resetAllCart } from '../../../features/cartSlice';
 
-import { registerLocale, setDefaultLocale } from 'react-datepicker';
+/* import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import { setHours, setMinutes }from 'date-fns';
 import uk from 'date-fns/locale/uk';
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css"; */
 import PhoneInput from 'react-phone-input-2'
 
 
 import {useSelector} from 'react-redux';
 
-import {Day, Time} from './DataPickers'
+/* import {Day, Time} from './DataPickers' */
 
 
 
@@ -28,6 +28,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
 
     const [phone, setPhone] = useState(localStorage.getItem('phone') || '');
     const [comments, setComments] = useState('');
+    const [customDate, setCustomDate] = useState('');
 
     //если эсФаст тру, значит доставка нужна как можно быстрее, иначе - на конкретное время и дату - появляется соответствующие инпуты (опять же условный рендеринг)
     const [isAsFast, setIsAsFast] = useState(true);
@@ -38,8 +39,8 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
     //ниже таймЮА - по умолчанию сделал его как время открытия заведения. Здесь у нас создается новый экземпляр объекта ДАТА с кастомными часами и минутами.
     //формат такой: Sun Sep 04 2022 15:45:00 GMT+0300 (Восточная Европа, летнее время)
     //такое поведение понадобится в компонентах РЕАКТ-ДАТАПИКЕРА
-    const [timeUa, setTimeUa] = useState(setHours(setMinutes(new Date(), 0), 10))
-
+/*     const [timeUa, setTimeUa] = useState(setHours(setMinutes(new Date(), 0), 10))
+ */
   
 
     //ниже при монтировании компонента я делаю запрос, чтобы получить время по Киеву.
@@ -47,7 +48,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
     //однако РЕАКТ-ДАТАПИКЕР работает, только с таким форматом Sun Sep 04 2022 15:45:00 GMT+0300 (Восточная Европа, летнее время)
     //поєтому мы снова обращаемся к конструтору ДАТЫ и записываем необходимое значение в СТЭЙТ. Теперь изначально указанное время- текущее время.
     //записіваю в СТЭЙТ этого компонента, чтобы затем ПРОПСАМИ передать его в два компонента РЕАКТ-ДАТАПИКЕРА (ТАЙМ и ДЭЙТ)
-    useEffect(()=>{
+   /*  useEffect(()=>{
         fetch('http://worldtimeapi.org/api/timezone/Europe/Kiev')
         .then(res=>res.json())
         .then(res=>setTimeUa(new Date(res.datetime)));
@@ -55,7 +56,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
         //ниже при монтировании компонента зарегистрировал украинскую локализацию для РЕАКТ-ДАТАПИКЕРА
         registerLocale('uk', uk)
         setDefaultLocale('uk')
-    }, [isAsFast])
+    }, [isAsFast]) */
     //выше решение такое себе...
 
  
@@ -68,6 +69,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
    
 
     return (
+        
         <form className="delivery" action="">
             <fieldset className="delivery__contact-fieldset">
             <legend className="delivery__contact-legend">Контактна інформація</legend>
@@ -110,21 +112,29 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
                     onClick={()=>{setIsAsFast(false)}}
                     className='onTheData'><span className={isAsFast ? 'custom-radio' : 'custom-radio checked'}></span>На певний час / дату</div>
                 </div>
+                
                 {isAsFast 
                 ?
-                <p style={{marginTop: '15px'}}>*Ми намагатимося привезти ваше замовлення настільки швидко, наскільки це можливо з урахуванням актуальної черги.</p>
+               
+                <p className='order__time-info'>*Ми намагатимося привезти ваше замовлення настільки швидко, наскільки це можливо з урахуванням актуальної черги.</p>
                 :
-                <div style={{marginTop:'15px', display: 'flex'}}>
+                /* <div style={{marginTop:'15px', display: 'flex'}}>
                 <Time timeUa={timeUa}/> 
-                <Day timeUa={timeUa}/>
-                </div>
+                <Day timeUa={timeUa}/> 
+                </div> */
+                <textarea
+                value={customDate}
+                onChange={(e)=>{setCustomDate(e.target.value)}}
+                className='order__custom-date' name="date" placeholder='Наприклад: "сьогодні о 15:00..."'></textarea>
+                 
                 }
+               
             </fieldset>
 
             
             <fieldset className="order__add-fieldset">
                 <legend className='order__add-label'>Додаткова інформація</legend>
-                <p style={{marginTop: '15px'}}>Передзвонити для уточнення замовлення?</p>
+                <p className='order__ask-for-call'>Передзвонити для уточнення замовлення?</p>
                 <div className="delivery__data-choose-wrapper">
                     {/* использую ниже условный рендеринг для того, чтобы отмечать активный выбор */}
                 <div 
@@ -135,7 +145,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
                     className='onTheData'><span className={!wishCall ? 'custom-radio checked': 'custom-radio'}></span>Ні</div>
                 </div>
                 {wishCall ? null : <p className='delivery-note-about-call'>Але якщо з вашим замовленням виникнуть труднощі, ми всеодно муситимо вам подзовнити.</p>}
-                <p style={{marginTop: '15px'}}>Коментар до служби доставки</p>
+                <p className='order__message-todel'>Коментар до служби доставки</p>
                 <textarea
                 value={comments}
                 onChange={(e)=>{setComments(e.target.value)}}
@@ -144,7 +154,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
             <div className="order__form-totalPrice">Всього до сплати {totalPrice} грн</div>
             {/* ниже будет проверка. Если сумма нулевая, то вместо кнопки подтверждения заказа - мы будем показывать надпись */}
             {totalPrice == 0 ?
-            <div style={{textAlign: 'center', marginTop: '15px'}}>Аби зробити замовлення, додайте товар до кошика...</div>
+            <div className='order__attention-empty'>Аби зробити замовлення, додайте товар до кошика...</div>
                 :
             <button
             onClick={(e)=>{e.preventDefault();
@@ -192,6 +202,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
             className="order__submit-btn">Подтвердить заказ</button>
             }
         </form>
+        
     )
 }
 

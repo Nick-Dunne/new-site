@@ -26,7 +26,7 @@ export const fetchPizza = createAsyncThunk(
     async ({filter, sorting})=>{
         const baseSorting = sorting ? '_sort=' + sorting.cat + '&_order=' + sorting.order : '';
         const baseFilter = filter ? 'q=' + filter + '&' : '';
-       const response = await fetch('https://my-json-server.typicode.com/Nick-Dunne/test-deploy/pizzas?'+ baseFilter + baseSorting)
+       const response = await fetch('http://localhost:4000/pizzas?'+ baseFilter + baseSorting)
      
        //тут тоже сделал проверку на ок не ок. Обычно не ок, когда адрес другой. Кетч ловит ошибки соединения, в своб очередь... Кстати, второй then реакт не давал мне сделать, поэтому все сделал в одном.
         .then(res=>{
@@ -42,7 +42,7 @@ export const fetchPizza = createAsyncThunk(
 export const fetchBorts = createAsyncThunk(
     'general/fetchBorts',
     async ()=>{
-        const response = await fetch('https://my-json-server.typicode.com/Nick-Dunne/test-deploy/borts')
+        const response = await fetch('http://localhost:4000/borts')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})
@@ -55,7 +55,7 @@ export const fetchBorts = createAsyncThunk(
 export const fetchIngr = createAsyncThunk(
     'general/fetchIngr',
     async ()=>{
-        const response = await fetch('https://my-json-server.typicode.com/Nick-Dunne/test-deploy/ingr')
+        const response = await fetch('http://localhost:4000/ingr')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})
@@ -67,7 +67,7 @@ export const fetchIngr = createAsyncThunk(
 export const fetchCatOfIngred = createAsyncThunk(
     'general/fetchCatOfIngred',
     async ()=>{
-        const response = await fetch('https://my-json-server.typicode.com/Nick-Dunne/test-deploy/catOfIngred')
+        const response = await fetch('http://localhost:4000/catOfIngred')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})

@@ -1,12 +1,12 @@
 .sort-by-price{
     text-align: right;
     margin-top: 10px;
-    span{
-        padding-bottom: 1px;
-        border-bottom: .5px dotted gray;
-        cursor: pointer;
-
-    }
+    margin-left: auto;
+    display: flex;
+    width:max-content;
+    padding-bottom: 1px;
+    border-bottom: 0.5px dotted gray;
+    cursor: pointer;
 }
 .sort-by-price__ul{
 position: absolute;
@@ -35,6 +35,7 @@ background-color: white;
     font-weight: bolder;
     font-size: 12px;
     transition: .2s all;
+    width: max-content;
     &:hover{
         transform: scale(110%);
     }

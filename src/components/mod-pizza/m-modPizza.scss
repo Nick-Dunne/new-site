@@ -1,0 +1,115 @@
+.m-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.449);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &__content {
+        width: 90%;
+        max-height: 90%;
+        background-color: white;
+        position: relative;
+        border-radius: 5px;
+        border: 0.5px solid gray;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        
+    }
+    &__close{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        font-size: 25px;
+        z-index: 2;
+        color: var(--red);
+        font-weight: bolder;
+    }
+    &-wr{
+        position: relative;
+     
+    }
+    &__img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 5px 0;
+        height: 100%;
+        object-fit: contain;
+        z-index: 0;
+        filter: blur(4px);
+    }
+
+    .pizzablock__pizza-calories-popup{
+        top: -50px;
+    }
+    &__borts-i{
+        font-size: 14px;
+        font-weight: bolder;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    &__borts{
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        column-gap: 20px;
+        align-items: center;
+        width: max-content;
+        background-color: var(--bg);
+        border-radius: 5px;
+        filter: drop-shadow(0px 0px 1px gray);
+    }
+
+    &__borts-item-act{
+        border: .5px solid gray;
+        background-color: var(--lgreen);
+        
+    }
+    &__borts-item{
+        font-size: 14px;
+        padding: 2px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+}
+
+.m-modals__btns-wr{
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: max-content;
+    :first-child{
+        margin-bottom: 15px;
+    }
+}
+.m-modal__wrapper{
+    position: relative;
+    padding: 20px 10px 10px 10px;
+    background-color: rgba(255, 255, 255, 0.624);
+    
+}
+.m-modal__pizza-descr{
+    margin-top: 5px;
+}
+.m-modal__pizza-extra{
+    margin-top:0;
+}
+.m-modal__action-wr{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}

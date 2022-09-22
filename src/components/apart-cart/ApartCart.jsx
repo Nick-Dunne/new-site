@@ -1,13 +1,18 @@
-import './aside-cart.scss';
+//я просто взял компонент ЭСАЙД-КАРТ и его скопировал, все комментарии отсюда я удалю. Все пояснения - ищи там.
+
+import '../aside-cart/aside-cart.scss';
+import './apart-cart.scss';
 
 import { Link, useLocation} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {useEffect, useRef, useState} from 'react';
 
+import cart from '../../assets/cart.png';
+
 import { resetAllCart, minusToCart, plusToCart, deletePositionCart } from '../../features/cartSlice';
 
-const AsideCart = ()=>{
-  //useLocation это хук, чтобы получить доступ к урл. Мы его будем использовать для условного рендеринга кнопки "оформить". Это реакт-роутер
+const ApartCart = ()=>{
+  //useLocation это хук, чтобы получить доступ к урл. Мы его будем использовать для условного рендеринга кнопки "оформить"
   const path = useLocation().pathname;
   const cartData = useSelector(state => state.cart.cart);
   const totalCountCart = useSelector(state => state.cart.totalCountCart);
@@ -36,30 +41,38 @@ let wasFirstMount = useRef(false);
 
 
     return (
-        <aside className="aside-cart">
+      <section className='main'>
+      <div className="container">
+        <aside className="apart-cart">
           {/* показываем "оформить заказ в зависимости от страницы" */}
           <div>
-          {path !== '/order' 
-          ?
-            //еще одна проверка вложенная, чтобы на главной странице нельзя было оформить заказ, если корзина пуста...
-            totalCountCart === 0 ? null : <button className="aside-cart__do-order"><Link to="/order">Оформити замовлення</Link></button>
-          :
-          null}
+         
           </div>
         <div className="aside-cart__header">
           <div className="aside-cart__plusCount">Кошик ({totalCountCart})</div>
+          <Link to='/'>
           <div
           onClick={()=>{dispath(resetAllCart())}} 
           className="aside-cart__reset">очистити ✖</div>
+          </Link>
         </div>
-        <div className="aside-cart__total">Загальна сума: <span>{totalPriceCart} грн</span></div>
+        <div className="aside-cart__total apart-cart__total">Загальна сума: <span>{totalPriceCart} грн</span></div>
         
-        <div className="aside-cart__wrapper-for-item">
+        <div className="aside-cart__wrapper-for-item apart-cart__wrapper-for-item">
         {elements}
         </div>
-        
+        <button className="apart-cart__return-btn"><Link to="/">Повернутись на головну ⟵</Link></button>
+        {path !== '/order' 
+          ?
+            //еще одна проверка вложенная, чтобы на главной странице нельзя было оформить заказ, если корзина пуста...
+            totalCountCart === 0 ? null : <button className="apart-cart__do-order"><Link to="/order">Оформити замовлення</Link></button>
+          :
+          null}
+         
         
       </aside>
+      </div>
+      </section>
     )
 }
 
@@ -117,4 +130,4 @@ const AsideCartItem = ({bortName, price, img, name, id, deleted, extra})=>{
 )
 }
 
-export default AsideCart;
+export default ApartCart;

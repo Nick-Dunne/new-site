@@ -1,5 +1,7 @@
 import {NavLink} from 'react-router-dom';
 
+import place from '../../assets/placing.png';
+
 import './headerAdd.scss';
 const Header = ()=>{
 
@@ -9,9 +11,16 @@ const Header = ()=>{
         <header className='header'>
         <div className="container">
           <div className="header__wrapper">
-            <div><a href="tel:+38 099 3965 777">+38 099 3965 777</a> 
-            <span className="header__city"
-                aria-hidden="true">Добропілля</span></div>
+            <div className='header__inf'><a href="tel:+38 099 3965 777">+38 099 3965 777</a> 
+            <div className='header__city-ico-wr'>
+              <img className='header__place-icon' src={place} alt="-" />
+              <span className="header__city"
+                aria-hidden="true">Добропілля</span>
+            </div>
+            <div className="header__worktime">10:00-17:30</div>
+            </div>
+            
+            
             <ul className="header__menu">
 
               <li><NavLink
@@ -23,7 +32,7 @@ const Header = ()=>{
                 to="/about"
                 style={({ isActive }) =>
                   isActive ? activeStyle : undefined
-                }>Контакти</NavLink></li>
+                }>Про нас</NavLink></li>
              
             </ul>
             {/* <div><button 

@@ -1,6 +1,18 @@
-.aside-cart__item{
+.aside-cart__wrapper-for-item::-webkit-scrollbar{
+    width: 15px;
+}
+.aside-cart__wrapper-for-item::-webkit-scrollbar-track{
+    background: gray;
+}
+.aside-cart__wrapper-for-item::-webkit-scrollbar-thumb{
+    background: var(--grayfund);
     border-radius: 5px;
-    &:nth-child(2)
+    border: 2px solid gray;
+}
+
+
+.aside-cart__item{
+    &:nth-child(1)
     {
         background-color: #bfefbb;
     }
@@ -34,4 +46,9 @@
         display: inline-block;
         vertical-align: middle;
     }
+}
+
+.aside-cart__wrapper-for-item{
+    max-height: 65vh;
+    overflow-y: scroll;
 }

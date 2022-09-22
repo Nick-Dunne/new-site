@@ -3,6 +3,7 @@ import Postheader from '../components/postheader/Postheader';
 import Main from '../pages/Main';
 import About from '../pages/About';
 import Footer from '../components/footer/Footer';
+import ApartCart from '../components/apart-cart/ApartCart';
 
 
 import Pizzablock from '../components/pizzablock/Pizzablock';
@@ -13,10 +14,12 @@ import { fetchBorts, fetchIngr, fetchCatOfIngred, fetchPizza } from '../features
 import { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Routes, Route} from 'react-router-dom';
+//4
 
 
 function App  () {
   const dispatch = useDispatch();
+
 
   //при мнтировании - запрос для получения информации
   useEffect(()=>{
@@ -41,6 +44,7 @@ function App  () {
       </Route>
       {/* далее непотимизированно */}
       <Route path="/about" element={<About/>}/>
+      <Route path="/cart" element={<ApartCart/>}/>
 
     {/*   если ничего не подошло - выбрасываем 404*/}
       <Route path="*" element={<h1>404</h1>}/> 

@@ -8,6 +8,7 @@ import App from './app/App';
 
 
 import './styles/index.scss';
+import './styles/media-rules.scss';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

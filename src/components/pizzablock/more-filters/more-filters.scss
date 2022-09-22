@@ -1,7 +1,7 @@
 .pizzablock{
 
     &__more-wrapper{
-        height: 200px;
+     
     }
 
     &__more-filters{
@@ -14,7 +14,6 @@
         border: .5px solid gray;
         background-color: white;
         border-radius: 5px;
-        height: 200px;
         width: 100%;
         display: flex;
         justify-content: space-around;
@@ -33,6 +32,7 @@
 
     }
     &__more-ingr{
+        margin-top: 1px;;
         font-size: 10px;
         cursor: pointer;
         &:hover{

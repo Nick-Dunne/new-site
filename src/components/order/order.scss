@@ -1,4 +1,14 @@
 .order{
+    &__wrapper{
+        padding: 0 10px;
+        form{
+            input, textarea{
+                border-radius: 5px;
+                border: none;
+                filter: drop-shadow(0px 0px 3px gray);
+            }
+        }
+    }
     &__way-to-get{
         margin-top: 20px;
         
@@ -11,11 +21,22 @@
         background-color: var(--bg);
         border: .5px solid gray;
     }
+    &__ask-for-call{
+        margin-top: 15px;
+    }
     &__comments{
         padding: 5px;
-        width: 500px;
+        width: 70%;
         min-height: 100px;
         resize: none;
+        margin-top: 5px;
+    }
+    &__custom-date{
+        padding: 5px;
+        width: 30%;
+        min-height: 50px;
+        resize: none;
+        margin-top: 15px;
     }
     &__form-totalPrice{
         text-align: center;
@@ -28,6 +49,9 @@
         border-radius: 5px;
         background-color: var(--lgreen);
         padding: 2px;
+    }
+    &__title{
+        font-size: 20px;
     }
 }
 
@@ -51,6 +75,7 @@
     padding: 2px 10px 15px 10px;
     label{
         margin-right: 5px;
+        display: block;
     }
 
 
@@ -164,4 +189,18 @@
     margin-top: 5px;
     color: var(--red);
 
+}
+.order__attention-empty{
+    text-align: center;
+    margin-top: 15px;
+}
+.order__message-todel{
+    margin-top: 15px;
+}
+.order__pay-info{
+    margin-top: 15px;
+    display: block;
+}
+.order__time-info{
+    margin-top: 15px;
 }

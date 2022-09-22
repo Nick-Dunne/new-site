@@ -1,6 +1,7 @@
 import man from '../../assets/man.png';
 
 import './pizzaItem.scss';
+import './m-pizzaItem.scss';
 
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,33 +14,22 @@ import { goModify } from '../../features/generalSlice';
 //импортируем экшены добавления в корзину объекта, плюс и минус
 import { addToCart, plusToCart, minusToCart } from '../../features/cartSlice';
 
-
+ //имортируем наш кастомный хук для определения ширины экрана
+ import useMedia768 from '../../hooks/useMedia';
 
 
 
 //в пропсах иp ПиццаЛист приходит объект с данными конкретной пиццы (там у нас map)
 const PizzaItem = ({info})=>{
+  const isMobile = useMedia768();
+
   //далее до ЮЗЭФФЕКТ реализован попАП для выбора бортиков. Тут же и рефы для того, чтобы определять в какую область клацать. В слушателе событий есть четкая зависимость от появления или скрытия окна, кроме этого - слушатель вешается только в случае, если модальное для бортиков открыто, когда оно будет закрыто, то слушатель будет удален.
   const [bortIndex, setBortIndex] = useState('0');
-  const [chooseBortPopUp, setChooseBortPopUp] = useState(false);
 
-  const ref = useRef(null);
+
+
   const dispatch = useDispatch();
   
-  const handleClickOutside = (event) =>{
-    if (ref.current && !ref.current.contains(event.target)){
-       setChooseBortPopUp(false);
-   } 
-}
-//тут вешаем сам слушатель событий. Хорошее и эффективное решение вышло. Можешь проверить в консоли.
-useEffect(()=>{
-  if(chooseBortPopUp){
-   document.addEventListener('click', handleClickOutside, {passive:true});
-   return ()=>{
-       document.removeEventListener('click', handleClickOutside, {passive:true});
-   }
-  }
-}, [chooseBortPopUp]);
 
 //получаем данные из корзины для проверок
 const cartData = useSelector(state=>state.cart.cart);
@@ -70,12 +60,47 @@ const cartData = useSelector(state=>state.cart.cart);
     //ниже формируем полную цену для отправки уже с бортиком
     const fullPrice = loadingBorts === 'ok' ? price + borts[bortIndex].price : null;
 
-
+   //ниже проверка для вывода ингредиентов и их распознавания
+   //проверку пришлось делать, иначе иногда бывают ошибки. Тут ведь вычисления... Если ингредиены не загружены, то будет пустота.
+   const translateDescr = loadingIngr === 'ok'
+   ?
+   descr.map((item, ind, arr)=>{
+   if(ind === arr.length -1){
+     //allIngr[item][0] - из-за структуры моей базы данных
+     return `${allIngr[item][0]}`
+   } else{
+     return `${allIngr[item][0]}, `
+   }})   : null;
 
 
 
     return (
       <>
+      {
+        isMobile ?
+        <li className="mmi">
+          <div className='mmi__img-wr'>
+            {isNew} {isHit} {isVegan}
+            <img src={img} alt="" className="mmi__img" />
+          </div>
+          <div className="mmi__sec-wr">
+            <div>
+            <h2 className="mmi__pname">{name}</h2>
+            <div className="mmi__pdescr">{translateDescr}</div>
+            </div>
+            <div className="mmi__info-wr">
+              <span className="mmi__price">от {price} грн</span>
+              <button 
+              onClick={()=>{dispatch(goModify(id))}}
+              className="mmi__choose">Выбрать</button>
+            </div>
+          </div>
+        </li>
+
+        
+        :
+
+
         <li className="pizzablock__pizza-item"><img className="pizzablock__pizza-img" src={img} alt=""/>
         <div className="pizzablock__more-info">
           <div>  {isNew} {isHit} </div>
@@ -86,42 +111,27 @@ const cartData = useSelector(state=>state.cart.cart);
         {/* вывел калории в отдельный компонент, чтобы своим рендером он не затрагивал другие элементы */}
         <PizzaNamePlusCaloriesInfo name={name} calories={calories}/>
 
-        <div className="pizzablock__pizza-descr">
-          {
-            //проверку пришлось делать, иначе иногда бывают ошибки. Тут ведь вычисления... Если ингредиены не загружены, то будет пустота.
-          loadingIngr === 'ok'
-          ?
-          descr.map((item, ind, arr)=>{
-          if(ind === arr.length -1){
-            //allIngr[item][0] - из-за структуры моей базы данных
-            return `${allIngr[item][0]}`
-          } else{
-            return `${allIngr[item][0]}, `
-          }})
-          : null}
-          </div>
+        <div className="pizzablock__pizza-descr">{translateDescr}</div>
         <div className="pizzablock__change-ingr">
           
           <span
           onClick={()=>{dispatch(goModify(id))}}
           ><strong>змінити інгредієнти</strong></span></div>
           
-
-        <div
-        ref={ref}
-        onClick={()=>{setChooseBortPopUp(!chooseBortPopUp)}} 
-        className="pizzablock__choose-bort"><span>Бортик - {loadingBorts === 'ok' ? borts[bortIndex].title : null} {chooseBortPopUp ?  '▲' : '▼'}</span></div>
-        {chooseBortPopUp && <div className="bort-popup">
-          {
-            Object.keys(borts).map(item=>{
-              return (
-                <span key={item} onClick={()=>{setBortIndex(item); setChooseBortPopUp(false)}}>{borts[item].title}</span>
-              )
-            })
-          }
-
-        </div>}
-        
+        {/* ниже выводим бортики */}
+        <div className="modal__borts">
+                      
+              {
+                  Object.keys(borts).map(item=>{
+                  return (
+                      <span
+                      className={item===bortIndex ? 'modal__borts-item modal__borts-item-act' : 'modal__borts-item' } 
+                      key={item} onClick={()=>{setBortIndex(item);}}>{borts[item].title}<br></br><span>борт</span>  </span>
+                  )
+                  })
+              }
+              </div>
+        {/* бортики окончены */}
        
         <div className="pizzablock__order-details"><span className="pizzablock__price">{fullPrice} грн <span style={{fontSize: '10px'}}>(за од.)</span></span> 
        {/*    ниже важное условие - для этого мы и получали юзСелектором данные из корзины. Мы спрашиваем, есть ли в корзине айди, которое способен сгенерировать компонент. Если нет, то значит добавления в корзину еще не было и показывается обычная кнопка с экшеном АДТУКАРТ, но если в редакс-стэйте корзины уже есть пицца или группа пицц под соответствующим АЙДИ, то вместо кнопки добавить в корзину у нас появляется счетчик пицц и сообщение об успешно добавленном товаре */}
@@ -148,9 +158,13 @@ const cartData = useSelector(state=>state.cart.cart);
     
         </div>
       </li>
+      }    
+
       </>
     )
 }
+
+
 
 
 

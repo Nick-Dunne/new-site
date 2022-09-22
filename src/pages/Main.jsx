@@ -13,10 +13,12 @@ const Main = ()=>{
     return (
         <section className="main">
         <div className="container">
+          <div className="main-wrapper">
           <div className="main-block">
             {<Outlet/>}
           </div>
           <AsideCart/>
+          </div>
         </div>
       </section>
     )

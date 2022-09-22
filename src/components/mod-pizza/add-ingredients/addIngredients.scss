@@ -5,19 +5,20 @@
 }
     &__ingr-cat{
         margin-right: 5px;
+        font-weight: bolder;
         cursor: pointer;
     }
     &__borderB{
-        border-bottom: 4px solid gray;
+        border-bottom: 4px solid var(--grayfund);
     }
     &__list{
         margin: 5px 0;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
         gap: 5px;
         justify-content: center;
         align-items: center;
         text-align: center;
+        grid-template-columns: repeat(3, 33%);
     }
     &__ingr{
         font-size: 12px;
@@ -35,10 +36,12 @@
         &-count{
             border: .5px solid gray;
             border-radius: 50%;
-            background-color: var(--bg);
             padding: 1px;
             color: black;
             cursor: pointer;
+            padding: 5px;
+            width: 25px;
+            background-color: var(--lgreen);
         }
     }
 }

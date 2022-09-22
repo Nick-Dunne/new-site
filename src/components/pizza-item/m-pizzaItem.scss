@@ -1,0 +1,64 @@
+.mmi{
+    display: flex;
+    padding: 10px 25px;
+    background-color: white;
+    &__img-wr{
+        position: relative;
+        width: 35%;
+        height: 130px;
+       
+        .pizzablock__isNew{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .pizzablock__isHit{
+            position: absolute;
+            top: 0;
+            right: 0; 
+        }
+        .pizzablock__special{
+            position: absolute;
+            bottom: 0;
+            right: 0; 
+        }
+    }
+    &__img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    &__sec-wr{
+        padding-left: 10px;
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    &__pname{
+        font-size: 16px;
+    }
+    &__pdescr{
+        overflow-wrap: break-word;
+        font-size: 12px;
+    }
+    &__info-wr{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__choose{
+        padding: 2px 5px;
+        background-color: var(--lgreen);
+        border-radius: 5px;
+        border: 0.5px solid gray;
+        font-size: 14px;
+        &:hover{
+            background-color: var(--gray);
+        }
+    }
+    &__price{
+        font-size: 16px;
+        font-weight: bold;
+    }
+}

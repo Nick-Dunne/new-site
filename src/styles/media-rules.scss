@@ -1,0 +1,319 @@
+@media (max-width: 1200px) { 
+    .pizzablock__order-details{
+        flex-direction: column;
+        align-items: center;
+        .pizzablock__price{
+            margin-bottom: 5px;
+        }
+    }
+    .delivery input{
+        width: 130px;
+    }
+}
+
+@media (max-width: 1050px) { 
+    .main-block{
+        width: 68%;
+    }
+    .aside-cart{
+        width: 32%;
+    }
+    .pizzablock__pizza-items{
+        grid-template-columns: repeat(2, 1fr);
+    } 
+
+    .pizzablock__pizza-items{
+        gap: 10px;
+    } 
+    .pizzablock__order-details{
+        flex-direction: column;
+        align-items: center;
+        .pizzablock__price{
+            margin-bottom: 5px;
+        }
+    }
+  
+}
+
+@media (max-width: 992px) { 
+    .sort-by-price__li{
+        font-size: 14px;
+    }
+    .addIngredients__ingr-price-wrapper{
+        font-size: 9px;
+    }
+    .pizzablock__filter-sort{
+        font-size: 14px;
+        display: grid;
+        grid-template-columns: auto auto;
+        row-gap: 10px;
+    }
+    .pizzablock__filter-active{
+        font-size: 16px;
+    }
+    .modal__pizza{
+        width: 85%;
+    }
+    .addIngredients__ingr{
+        font-size: 11px;
+    }
+    .sort-by-price{
+        font-size: 14px;
+    }
+    .aside-cart__body{
+        font-size: 14px;
+    }
+    .pizzablock__pizza-img{
+        width: 100%;
+        height: 200px;
+    }
+    .pizzablock__morefilters{
+        width: max-content;
+    }
+   
+}
+
+@media (max-width: 768px) { 
+    .header__city-ico-wr{
+        display: none;
+    }
+    .pizzablock__filter-items{
+        font-size: 14px;
+        
+    }
+    .pizzablock__morefilters{
+        padding: 2px 5px;
+    }
+    .about__title{
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .about__text, .about__cnt-info{
+        font-size: 14px;
+    }
+    .mmi{
+        padding: 10px;
+    }
+    .delivery{
+        padding: 2px 5px 15px 5px;
+        margin-top: 15px;
+    }
+    .order__way-to-get{
+        margin-top: 10px;
+    }
+    .order__title{
+        font-size: 18px;
+    }
+    .delivery-note-about-call{
+        font-size: 12px;
+    }
+    .delivery__city{
+        font-size: 12px;
+    }
+    .order__custom-date{
+        margin-top: 10px;
+    }
+   
+    .order__wrapper form{
+    font-size: 14px;
+       
+        fieldset{
+            padding: 5px;
+            margin-top: 5px;
+        }
+        input{
+            width: 130px;
+            font-size: 12px;
+        }
+        textarea{
+            font-size: 12px;
+        }
+        label{
+            font-size: 12px;
+        }
+    }
+    .order__pay-info{
+        font-size: 12px;
+        word-wrap: break-word;
+        margin-top: 10px;
+    }
+    .order__ask-for-call{
+        margin-top: 5px;
+    }
+    .order__message-todel{
+        margin-top: 10px;
+    }
+    .order__time-info{
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    .delivery__data-choose-wrapper{
+        margin-top: 5px;
+    }
+    .delivery__address-first-wrapper{
+        grid-template-columns: repeat(2, 132px);
+        row-gap: 5px;
+        margin-top: 10px;
+    }
+    .delivery__address-second-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 5px;
+        margin-top: 10px;
+    }
+    .header, .postheader__menu{
+        font-size: 16px;
+    }
+    .main{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        .container{
+            padding: 0 50px;
+        }
+    }
+    .pizzablock__more-cat-ul{
+        padding: 5px;
+    }
+     .aside-cart{
+        display: none;
+    }
+    .main-block{
+        width: 100%;
+    }
+    .pizzablock__pizza{
+        margin-top: 15px;
+    }
+    .pizzablock__choose-bort{
+        width: 100px;
+    } 
+    //тут я начал вставлять код, который изначально держал для 576...
+
+    .pizzablock__pizza-items{
+        grid-template-columns: repeat(1, 1fr);
+        padding: 2px 10px;
+    } 
+    
+    
+    .pizzablock__pizza-items{
+        padding: 0;
+    }
+    .pizzablock__title{
+        font-size: 18px;
+    }
+    .pizzablock__filter-sort{
+        margin-top: 5px;
+        grid-template-columns: auto;
+        justify-content: center;
+        row-gap: 5px;
+        grid-template-areas:
+        "A A"
+        "B C";
+        .pizzablock__filter-items{
+            grid-area: A;
+        }
+        .pizzablock__morefilters{
+            grid-area: B;
+        }
+        .pizzablock__reset-filters{
+            grid-area: C;
+            margin-left: 10px;
+        }
+        }
+        .postheader__phone{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: self-end;
+        }
+       
+  
+        .postheader__logo-menu-wrap{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas: 'A''B''C';
+            justify-items: center;
+            width: 100%;
+        }
+        .postheader__menu{
+            grid-area: A;
+            margin-left: 0;
+            justify-self: self-start;
+        }
+        .postheader__menu li {
+            margin-left: 0;
+        }
+        .header, .postheader{
+            height: auto;
+            .container{
+                padding: 0 20px;
+            }
+        }
+        .header__wrapper{
+            min-height: 30px;
+            padding: 2px 0;
+        }
+        .postheader__wrapper{
+            min-height: 50px;
+            padding: 3px 0;
+        }
+        .sort-by-price{
+            margin-top: 5px;
+        }
+        .footer{
+            height: 100px;
+        }
+        .delivery__address-second-wrapper{
+            grid-template-columns: repeat(2, 132px);
+            row-gap: 5px;
+        }
+    
+}
+
+
+@media (max-width: 576px) { 
+    .postheader__logo-menu-wrap img, .postheader__logo-menu-wrap a{
+        height: 45px;
+    }
+    .pizzablock__filter-items{
+        padding: 2px 10px;
+    }
+    .pizzablock__filter-items li:not(:first-child){
+        margin-left: 5px;
+        padding-left: 5px;
+    }
+    .sort-by-price__li{
+        font-size: 12px;
+    }
+    .main{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        .container{
+            padding: 0;
+        }
+    }
+    .pizzablock__pizza{
+        margin-top: 15px;
+    }
+    .pizzablock__more-filters{
+        margin-top: 10px;
+    }
+    .wrap-for-mobile{
+        padding: 0 20px;
+    }
+    .pizzablock__more-ingr{
+        font-size: 9px;
+    }
+    .header__inf > a{
+        display: none;
+    }
+    .header__city-ico-wr{
+        margin-left: 0;
+    }
+    .header__worktime{
+        margin-left: 0;
+    }
+    .header{
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+}

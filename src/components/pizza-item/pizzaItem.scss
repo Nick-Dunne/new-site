@@ -7,29 +7,7 @@
         fill: #9E0809;
     }
 }
-.bort-popup{
-    margin: 0 auto;
-    text-align: right;
-    cursor: pointer;
-    width: 200px;
-    border-radius: 0;
-    border: solid gray .5px;
-    &:hover{
-       background-color: inherit; 
-    }
-    span{
-        display: block;
-        border-bottom: solid .5px var(--gray);
-        padding-right: 25px;
-        transition: all .3s;
-        &:last-child{
-            border-bottom: none;
-        }
-        &:hover{
-            background-color: gray;
-        }
-    }
-}
+
 .pizzablock__isNew, .pizzablock__isHit{
     font-size: 10px;
     background-color: var(--red);
@@ -52,6 +30,41 @@
     padding: 1px;
     background-color: #bfefbb;
     color: black;
+}
+
+.modal__borts{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 5px;
+    align-items: center;
+    width: max-content;
+    margin: 0 auto;
+    background-color: var(--bg);
+    border-radius: 5px;
+    filter: drop-shadow(0px 0px 1px gray);
+    margin-top: 8px;
+}
+
+.modal__borts-item-act{
+    border: .5px solid gray;
+    background-color: var(--lgreen);
+    
+}
+.modal__borts-item{
+    font-size: 16px;
+    padding: 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s all;
+    border-radius: 5px;
+    &:hover{
+        
+        border: .5px solid gray;
+    }
+    span{
+        font-size: 12px;
+        line-height: 14px;
+    }
 }
 
 /* .pizzablock__pizza-item {

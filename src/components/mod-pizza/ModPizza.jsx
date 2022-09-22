@@ -1,15 +1,22 @@
+//компонент поднимается из Апп.джс
+
 //ниже импортируем экшен для добавления в редакс-стэйт корзины объекта с модифицированной пиццей
 import { addToCart } from '../../features/cartSlice';
 //передаем экшен из генерального слайса для открытия-закрытия модального окна
 import { goModify } from '../../features/generalSlice';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect,useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AddIngredients from './add-ingredients/AddIngredients';
 
+ //имортируем наш кастомный хук для определения ширины экрана
+ import useMedia768 from '../../hooks/useMedia';
+
+ import PizzaNamePlusCaloriesInfo from '../pizzaNamePlusCaloriesInfo/PizzaNamePlusCaloriesInfo';
 
 import './modPizza.scss';
+import './m-modPizza.scss';
 
 
 //функция для подсчета суммы всех цен добавленных ингриедиентов (подробнее она расписана в картСлайсе) 
@@ -25,32 +32,22 @@ import './modPizza.scss';
 }
 
 const ModPizza = ()=>{
+
+
+    const isMobile = useMedia768();
+    //создам еще дополнительный стэйт для добавления ингредиентов (мобилка)
+    const [isMobileWantAdd, setIsMobileWantAdd] = useState(false);
+
     //здесь используются бортики, поєтому будем формировать их локально
     const [bortIndex, setBortIndex] = useState('0');
-    const [chooseBortPopUp, setChooseBortPopUp] = useState(false);
+
 
     //для описания пиццы мы используем числовые обозначения, которые в последствии преобразуем в слова, используя объект из базы данных
     const ingr = useSelector(state=>state.general.ingr);
     //получаем борты
     const borts = useSelector(state=>state.general.borts);
 
-    //используем рефы для реализации паттерна (клик во внешний мир)
-    const ref = useRef(null);
 
-    const handleClickOutside = (event) =>{
-        if (ref.current && !ref.current.contains(event.target)){
-           setChooseBortPopUp(false);
-       } 
-    }
-    
-    useEffect(()=>{
-      if(chooseBortPopUp){
-       document.addEventListener('click', handleClickOutside, {passive:true});
-       return ()=>{
-           document.removeEventListener('click', handleClickOutside, {passive:true});
-       }
-      }
-    }, [chooseBortPopUp]);
     
     //при создании модификационного модального окна, мы записываем в ГЕНЕРАЛ СТЭЙТ АЙДИ необходимой пиццы (здесь его получаем)
     const modifyId = useSelector(state=>state.general.modifyId);
@@ -132,7 +129,7 @@ const ModPizza = ()=>{
         <li id={item}
         //при клике на элемент и будет происходить наполение объекта с удаленными ингредиентами
         onClick={(e)=>{formStateWithDeletedIngr(e.currentTarget.id);}}
-            key={item+index} >
+            key={item+index+34} >
             <span className={classForDeletedIngr}>
             {/* ingr[item][0] - из-за структуры моей базы данных */}
             {ingr[item][0]}
@@ -141,11 +138,11 @@ const ModPizza = ()=>{
             {index === arr.length-1 ? null : ', '}
         </li>)
     })
-
+  
     //ниже работаем со списком добавленных ингредиентов, перебор - создание верстки
     const extraElements = Object.keys(extraIngr).map((item, index, arr)=>{
         return (
-            <li key={item+index}>
+            <li key={item+index+66}>
                 <span>{ingr[item][0]} ({extraIngr[item].length})</span>
                 <button
                 style={{lineHeight: '12px'}}
@@ -173,11 +170,115 @@ const ModPizza = ()=>{
     const modPrice = (price + extrasPriceSum + borts[bortIndex].price) * countModPizza;
   
  
-
+  //ниже условия (если есть определенный элемент массива, то показываем определенный контент, если нет, то ничего)
+  const isNew = category.includes('new') ? <span className="pizzablock__isNew">NEW</span> : null;
+  const isHit = category.includes('hit') ?  <span className="pizzablock__isHit">ХІТ</span> : null;
+  const isVegan = feature.includes('vegan') ? <span className="pizzablock__special">ВЕГАН</span> : null;
    
     return (
         <>
-        <div
+        {
+            isMobile ?
+
+            
+            <div className="m-modal">
+                <div className="m-modal__content">
+                    {/* ниже убираем крестик, если активно окно добавления ингредиентов */}
+                    {!isMobileWantAdd ? <div 
+                    onClick={()=>{dispatch(goModify())}}
+                    className="m-modal__close">╳</div> 
+                    :
+                    <div 
+                    onClick={()=>{setIsMobileWantAdd(false)}}
+                    className="m-modal__close">⟵</div> }
+
+                    <div className='m-modal-wr'>
+                    <img 
+                   
+                    src={img} alt="#" className="m-modal__img" />
+                        <div className="m-modal__wrapper">
+                        {
+                            !isMobileWantAdd ?
+                            <>
+                            <h2 className="m-modal__pizza-name">{name}</h2>
+                            <div className="m-modal__specials">{isNew} {isHit} {isVegan}</div>
+                             <ul className="modal__pizza-descr m-modal__pizza-descr"> 
+                            {descrElements}  </ul>
+    
+                           
+                            <div className="m-modal__borts-i">Обрати бортик ↓</div>
+                            <div className="m-modal__borts">
+                          
+                            {
+                                Object.keys(borts).map(item=>{
+                                return (
+                                    <span
+                                    className={item===bortIndex ? 'm-modal__borts-item m-modal__borts-item-act' : 'm-modal__borts-item' } 
+                                    key={1+item} onClick={()=>{setBortIndex(item);}}>{borts[item].title}</span>
+                                )
+                                })
+                            }
+                            </div>
+    
+                          
+                            <button 
+                            onClick={()=>{setIsMobileWantAdd(true)}}
+                            className="m-addIngredients-text">Додати ще інгредієнтів</button>
+                              {Object.keys(extraIngr).length ?
+                            <>
+                            <div className='m-addIngredients-text__inner'>Ви додали до піци:</div>
+                            <ul className="modal__pizza-extra m-modal__pizza-extra">
+                            {extraElements}
+                            </ul>
+                            </>
+                            : null
+                             }
+                    
+                    <div className="m-modal__action-wr">
+                    <span className="modal__pizza-price">{modPrice} грн</span>
+                    <div className='pizzablock__countOfPizza'>
+                        <button
+                        className='btn-minus'
+                        onClick={()=>{countModPizza<=1 ? setCountModPizza(1) : setCountModPizza(countModPizza - 1)  }}
+                        >-</button> 
+                        <span>{countModPizza}</span> 
+                        <button
+                        className='btn-plus'
+                        onClick={()=>{setCountModPizza(countModPizza + 1)}}
+                        >+</button>
+                    </div>
+
+                    <button 
+                        onClick={()=>{for(let i = 1; i <= countModPizza; i++){
+                       
+                            dispatch(addToCart({id: fullId, price: modPrice / countModPizza, name, bortName: borts[bortIndex].title, img, deleted:  Object.keys({...deletedIngr}), extra: {...extraIngr}  }))};
+                            
+                            dispatch(goModify())}} 
+                        className="pizzablock__addCart-btn">В корзину</button>
+                        </div>
+                            </>
+                            :
+                            
+                            <AddIngredients formStateWithExtraIngr={formStateWithExtraIngr} extraIngr={extraIngr} minusExtraIngr={minusExtraIngr} setIsMobileWantAdd={setIsMobileWantAdd} setExtraIngr={setExtraIngr}/>
+                        }
+                        </div>
+            
+                    </div>
+   
+                   
+                    
+                    
+
+                </div>
+            </div>
+
+
+
+            :
+
+
+
+            <div
         className="modal"
         //при клике на подложку тоглится модальное окно
         onClick={()=>{dispatch(goModify())}} >
@@ -206,21 +307,20 @@ const ModPizza = ()=>{
                     <h2 className='modal__pizzaName'>{name}</h2>
                 </div>
                     
-                    <div
-                    ref={ref}
-                    onClick={()=>{setChooseBortPopUp(!chooseBortPopUp)}} 
-                    className="pizzablock__choose-bort"><span>Бортик - {borts[bortIndex].title} ▼</span></div>
                     
-                    {chooseBortPopUp && <div className="bort-popup">
-                        {
-                            Object.keys(borts).map(item=>{
-                            return (
-                                <span key={item} onClick={()=>{setBortIndex(item); setChooseBortPopUp(false)}}>{borts[item].title}</span>
-                            )
-                            })
-                        }
+                <div className="modal__borts">
+                      
+                      {
+                          Object.keys(borts).map(item=>{
+                          return (
+                              <span
+                              className={item===bortIndex ? 'modal__borts-item modal__borts-item-act' : 'modal__borts-item' } 
+                              key={item} onClick={()=>{setBortIndex(item);}}>{borts[item].title}<br></br><span>борт</span>  </span>
+                          )
+                          })
+                      }
+                      </div>
 
-                        </div>}
 
                     <div className="modal__pizza-additionally-ingr">Додати інгредієнти:</div>
                     <AddIngredients formStateWithExtraIngr={formStateWithExtraIngr} extraIngr={extraIngr} minusExtraIngr={minusExtraIngr}/>
@@ -263,6 +363,8 @@ const ModPizza = ()=>{
             <span className='modal__pizza-close' onClick={()=>{dispatch(goModify())}}>╳</span>
             </div>
         </div>
+
+        }
         </>
     )
 }

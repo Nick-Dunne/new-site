@@ -1,9 +1,13 @@
 import PizzaList from "../pizza-list/PizzaList";
 import MoreFilters from "./more-filters/MoreFilters";
+import useMedia768 from '../../hooks/useMedia.js';
+import cart from '../../assets/cart.png';
 
 import './pizzablock.scss';
 
+import {Link} from 'react-router-dom';
 import {useState, useRef, useEffect} from 'react';
+import { useSelector } from "react-redux";
 
 //данные для формирования сортировки
 const liSort = [{cat: "rating", title: 'за рейтингом', order: 'desc'}, {cat: "price", title: 'за зменшенням ціни', order: 'desc'}, {cat: "price", title: 'за збільшенням ціни', order: 'asc'}];
@@ -11,6 +15,11 @@ const liSort = [{cat: "rating", title: 'за рейтингом', order: 'desc'}
 const liFilters = [{id: '', title: 'Всі'}, {id: 'new', title: 'Новинки'}, {id: 'vegan', title: 'Веганські'}, {id: 'hit', title: 'Топ'}];
 
 const Pizzablock = ()=>{
+
+const isMobile = useMedia768();
+const totalPrice = useSelector((state)=>state.cart.totalPriceCart);
+const totalCount = useSelector((state)=>state.cart.totalCountCart);
+
  
 //будем делать фильтрацию, локальный стэйт с определенным наименованием условной категории и передавать его в пицца блок, где непосредственно происходит запрос для получения пицц. Это значение будем передавать в http запрос для последующей фильтрации на бєке.
   const [filter, setFilter] = useState('');
@@ -69,8 +78,10 @@ const Pizzablock = ()=>{
 
 
     return (
+      <>
         <div className="pizzablock" id="pizzablock">
-              <h2 сlass="pizzablock__title">ПІЦА</h2>
+              <div className="wrap-for-mobile">
+              <h2 className="pizzablock__title">ПІЦА</h2>
               <div className="pizzablock__filter-sort">
                 <ul className="pizzablock__filter-items">
                  {liItems}
@@ -85,17 +96,37 @@ const Pizzablock = ()=>{
                 className={Object.keys(filtersMore).length>0 ? 'pizzablock__morefilters pizzablock__morefilters-active' : 'pizzablock__morefilters'}>Більше фільтрів {isMoreFilters ? '▲' : '▼'}</div>
               </div>
               {isMoreFilters ? <MoreFilters filtersMore={filtersMore} setFiltersMore={setFiltersMore}/> : null}
-              <div className="sort-by-price"><span 
+              
+              <div className="sort-by-price"
               ref={triggerRef}
-              onClick={()=>{setIsSorting(!isSorting)}}>{sorting.title} {isSorting ? '▲' : '▼'}</span></div>
+              onClick={()=>{setIsSorting(!isSorting)}}>{sorting.title} {isSorting ? '▲' : '▼'}</div>
               
               <div style={{position: 'relative'}}>
                 {isSorting ? <ul ref={ref} className="sort-by-price__ul">
                   {sortItems} </ul> : null}
               </div>
+              </div>
                  {/*  передаем пропс фильтр и сортинг для последующего ХТТП запроса и фильтерсМор тоже для фильтрации, но уже не через запрос (потому что джсон сервер не справляется)*/}
                   <PizzaList filter={filter} sorting={sorting} filtersMore={filtersMore}/>             
             </div>
+
+
+                  {/* //будем на мобильных показывать кнопку корзины внизу экрана */}
+                  {isMobile && (totalCount > 0) ?
+      
+                  <Link to='/cart'>
+                  <div className="fixed-cart">
+                    <div className="fixed-cart__colone">
+                    <span>{totalCount}</span>
+                    <img src={cart} alt="" />
+                    </div>
+                   
+                    <span className="fixed-cart__price">{totalPrice} грн</span>
+                  </div>
+                  </Link>
+                  : null}
+
+</>
     )
 }
 
