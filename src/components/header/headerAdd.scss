@@ -1,21 +1,23 @@
 .header {
     font-size: 18px;
     &__inf{
-        display: flex;
+        display: flex;    
+        padding: 3px 5px;
     }
     &__place-icon{
         width: 20px;
         height: 20px;
         object-fit: contain;
-        margin-right: 5px;
+        margin-right: 4px;
         filter: contrast(75%);
     }
     &__city-ico-wr{
         display: flex;
         align-items: center;
-        margin-left: 20px;
+        margin-left: 15px;
     }
     &__worktime{
-        margin-left: 20px;
+        margin-left: 15px;
+        cursor:context-menu;
     }
 }

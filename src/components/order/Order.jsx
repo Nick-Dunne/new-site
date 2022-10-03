@@ -5,6 +5,8 @@ import SelfServiceForm from './order-forms/SelfServiceForm';
 import DeliveryForm from './order-forms/DeliveryForm';
 import AfterOrderPage from './after-order-page/AfterOrderPage';
 
+
+
 import {useState, useEffect} from 'react';
 
 const Order = ()=>{
@@ -23,14 +25,13 @@ const Order = ()=>{
         <>
         <div className="order__wrapper">
         <h2 className='order__title'>Оформлення замовлення</h2>
-
         <div className="order__way-to-get">
             <button 
             onClick={()=>{setIsDelivery(true)}}
             className={isDelivery ? 'way-to-get__btn way-to-get--active' : 'way-to-get__btn'}>Доставка</button>
             <button 
             onClick={()=>{setIsDelivery(false)}}
-            className={isDelivery ? 'way-to-get__btn' : 'way-to-get__btn way-to-get--active'}>Самовывоз</button>
+            className={isDelivery ? 'way-to-get__btn' : 'way-to-get__btn way-to-get--active'}>Самовиніс</button>
         </div>
         {/* дальше будет условный рендеринг */}
         {isDelivery ? <DeliveryForm type={'Доставка'} setOrderSuccess={setOrderSuccess}/> : 

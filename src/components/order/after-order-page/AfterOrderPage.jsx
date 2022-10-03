@@ -19,11 +19,12 @@ const AfterOrderPage = ({orderSuccess})=>{
     return (
         <div className="afterOrder-modal">
 
-            <div className="afterOrder-modal__content">
+            <div className="afterOrder-modal__content">                
                 {orderSuccess === 'pending' ? <img src={spinner} alt="" /> : null }
-                {orderSuccess === 'yes' ? <div>Спасибо за заказ!<br/>Он уже полетел в обработку!</div> : null}
-                {orderSuccess === 'no' ? <div>Произошла какая-то ошибка...</div> : null}
-                <button><Link to='/'>Вернуться на главную страницу</Link></button>
+                {orderSuccess === 'yes' ?  <div className='afterOrder-modal__content-thx'><div>Дякуємо за замовлення!<br/>Воно вже полетіло в обробку!</div><Link  className='afterOrder-modal__content-btn' to='/'>Повернутися на головну сторінку</Link> </div> : null}
+                {orderSuccess === 'no' ? <div className='afterOrder-modal__content-err'> <div>Щось пішло не так... Замовлення не зроблено, спробуйте повторити спробу...</div><Link className='afterOrder-modal__content-btn' to='/'>Повернутися на головну сторінку</Link></div>: null}
+
+                
             </div>
             
         </div>

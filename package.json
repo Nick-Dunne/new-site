@@ -1,6 +1,6 @@
 {
-  "homepage": "https://nick-dunne.github.io/new-site/",
-  "name": "my-app",
+  "homepage": "https://m2t.pizza/",
+  "name": "m2t-pizza",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,8 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "json": "json-server --watch pizzas.json",
-    "json2": "json-server --watch ingr.json"
+    "json": "json-server --watch pizzas.json"
   },
   "eslintConfig": {
     "extends": [

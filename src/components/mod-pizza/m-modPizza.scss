@@ -9,6 +9,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &__pizza-name{
+        font-size: 24px;
+    }
+    &__title-weight-wr{
+        display: flex;
+        align-items: flex-end;
+    }
+    &__weight{
+        line-height: 24px;
+        margin-left: 15px;
+    }
     
     &__content {
         width: 90%;
@@ -28,7 +39,7 @@
     &__close{
         position: absolute;
         top: 5px;
-        right: 5px;
+        right: 10px;
         cursor: pointer;
         font-size: 25px;
         z-index: 2;

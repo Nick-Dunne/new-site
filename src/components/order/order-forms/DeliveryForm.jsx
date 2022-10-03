@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { resetAllCart } from '../../../features/cartSlice';
 
 /* import { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -14,18 +14,13 @@ import {useSelector} from 'react-redux';
 /* import {Day, Time} from './DataPickers' */
 
 
-
+const city = {0:{city: 'Добропілля', price: '60-85 грн'}, 1:{city: 'Ганнівка', price: '140 грн'}, 2:{city: 'Святогорівка', price: '200 грн'}};
 
 const DeliveryForm = ({type, setOrderSuccess})=>{
+    
     const dispatch = useDispatch();
 
     const [namer, setNamer] = useState(localStorage.getItem('namer') || '');
-    
-
-    const refName = useRef(0);
-    
-
-
     const [phone, setPhone] = useState(localStorage.getItem('phone') || '');
     const [street, setStreet] = useState(localStorage.getItem('street') || '');
     const [house, setHouse] = useState(localStorage.getItem('house') || '');
@@ -35,11 +30,14 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
     const [code, setCode] = useState('');
     const [comments, setComments] = useState('');
     const [customDate, setCustomDate] = useState('');
+    const [chosenCity, setChosenCity] = useState(localStorage.getItem('city') || 0);
 
     //если эсФаст тру, значит доставка нужна как можно быстрее, иначе - на конкретное время и дату - появляется соответствующие инпуты (опять же условный рендеринг)
     const [isAsFast, setIsAsFast] = useState(true);
     //получим конечную стоимость для отображения перед кнопкой заказа
     const totalPrice = useSelector(state=>state.cart.totalPriceCart);
+
+
 
     //ниже решение такое себе...
     //ниже таймЮА - по умолчанию сделал его как время открытия заведения. Здесь у нас создается новый экземпляр объекта ДАТА с кастомными часами и минутами.
@@ -68,14 +66,49 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
     //clarify - уточнение - условній рендеринг для отображения инпутов с подъездом, этажом (опциция)
     const [clarify, setClarify] = useState(false);
 
+
+    const [chooseCityPopUp, setChooseCityPopUp] = useState(false);
+    
+
+    const handleClick = ()=>{
+        setChooseCityPopUp(false);
+    }
+    useEffect(()=>{
+        document.addEventListener('click', handleClick);
+        return ()=>{document.removeEventListener('click', handleClick);} 
+    }, [setChooseCityPopUp])
+
     //далее функционал тоже для условного рендеринга, платить после доставки или онлайн
     const [payAfter, setPayAfter] = useState(true);
     //далее функционад для понимания - нужно ли перезванивать
     const [wishCall, setWishCall] = useState(true);
 
+    //надо же отправлять данные из корзины...
+    const cartData = useSelector(state=>state.cart.cart);
+    const ingr = useSelector(state=>state.general.ingr);
+    const loadingIngr = useSelector(state=>state.general.loadingIngr);
+
+    if(loadingIngr !== 'ok'){return null};
+    const arrOfPizzas = Object.values(cartData).map((item=>{
+        const {extra} = item[0];
+    
+        const deleted = item[0].deleted.map(item=>`(${ingr[item][0]})`);
+        const extras = Object.keys(extra).map(item=>{return `(${ingr[item][0]} - x${extra[item].length})`}) 
+        return `\n\n➤ <b>х${item.length} - ${item[0].name.toUpperCase()}</b> - ${item[0].price * item.length} грн ||| <b>борт ${item[0].bortName}</b> ${deleted.length !== 0 ? `||| <b>видалено з піци:</b> ${deleted}` : ``} ${extras.length !== 0 ? `||| <b>додано до піци:</b> ${extras}` : ``}`;
+    }));
+  
+
     const downSymbol = clarify ? '▲' : '▼';
+    const downSymbol2 = chooseCityPopUp ? '▲' : '▼';
 
-
+    const chooseElemTown = Object.keys(city).map(item=>{
+        return (
+            <li
+            className='delivery__city-li'
+            onClick={()=>{setChosenCity(item);
+                        setChooseCityPopUp(false)}}
+            >{city[item].city} - {city[item].price}</li>
+        )})
    
 
     return (
@@ -86,7 +119,6 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
             <div>
             <label className='delivery-label-star' for='namer'>ім'я</label>
             <input 
-            ref={refName}
             className="delivery__contact-name" id="namer" name="namer" type="text"  value={namer} onChange={(e)=>{setNamer(e.target.value)}}/>
             </div>
            
@@ -111,7 +143,21 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
 
             <fieldset className="delivery__address-fieldset">
                 <legend className="delivery__address-legend">Адреса</legend>
-                <span className="delivery__city" aria-hidden="true">Добропілля</span>
+                <span 
+                onClick={(e)=>{
+                   e.stopPropagation();
+                    setChooseCityPopUp(!chooseCityPopUp)}}
+                className="delivery__city" aria-hidden="true">{city[chosenCity].city} {downSymbol2}</span>
+                <div className='delivery__cost'>вартість доставки {city[chosenCity].price}</div>
+                
+                {chooseCityPopUp ?
+                <div style={{position:'relative'}}>
+                <ul className="delivery__city-ul">
+                    { chooseElemTown}
+                </ul>
+               </div>
+             
+                : null     }
               
 
                 <div className='delivery__address-first-wrapper'>
@@ -212,7 +258,7 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
                     onClick={()=>{setPayAfter(true)}}
                     className='asFast'><span className={payAfter ? 'custom-radio checked': 'custom-radio'}></span>Оплата при отриманні</div>
                     <div 
-                    className='onTheData'><span className={payAfter ? 'custom-radio' : 'custom-radio checked'}></span><strike>Оплата ONLINE</strike> (тимчасово недоступна)</div>
+                    className='onTheData'><span className={payAfter ? 'custom-radio' : 'custom-radio checked'}></span><strike>Оплата online</strike> (тимчасово недоступна)</div>
                 </div>
                 {payAfter ?
                     <p className='order__pay-info'>*Ви зможете оплатити своє замовлення безпосередньо після його отримання. <br></br>Наш драйвер прйме оплату готівкою або через безготівковий розрахунок, використовуючи банківський міні-термінал.</p>
@@ -232,17 +278,19 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
                     onClick={()=>{setWishCall(false)}}
                     className='onTheData'><span className={!wishCall ? 'custom-radio checked': 'custom-radio'}></span>Ні</div>
                 </div>
-                {wishCall ? null : <p className='delivery-note-about-call'>Але якщо з вашим замовленням виникнуть труднощі, ми всеодно муситимо вам подзовнити.</p>}
+                {wishCall ? null : <p className='delivery-note-about-call'>Але якщо у нас виникнуть питання, ми всеодно муситимо вам подзовнити :)</p>}
                 <p className='order__message-todel'>Коментар до служби доставки</p>
                 <textarea
                 value={comments}
                 onChange={(e)=>{setComments(e.target.value)}}
                 className='order__comments' name="comments" placeholder='залиште повідомлення у цьому текстовому полі, якщо бажаєте...'></textarea>
             </fieldset>
-            <div className="order__form-totalPrice">Всього до сплати {totalPrice} грн</div>
+            <div className="order__form-totalPrice">Вартість замовлення - {totalPrice} грн</div>
+            <div className='order__form-deliveryPrice'>*послуга доставки - {city[chosenCity].price}</div>
+            
             {/* ниже будет проверка. Если сумма нулевая, то вместо кнопки подтверждения заказа - мы будем показывать надпись */}
             {totalPrice == 0 ?
-            <div className='order__attention-empty'>Аби зробити замовлення, додайте товар до кошика...</div>
+            <div className='order__attention-empty'>Спершу додайте товар до кошика... :)</div>
                 :
             <button
             onClick={(e)=>{e.preventDefault();
@@ -255,11 +303,12 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
                             setOrderSuccess('pending');
                             const i = {
                                 parse_mode: 'HTML',
-                                text: `<b>Поступил</b> новый заказ от клиента по имени: ${namer}. \nТелефон: ${phone}. 
-                                \nТип заказа: ${type}
-                                \nДоставка на ${street}, дом ${house}, квартира ${aprts || '-'}, подъезд ${entrance || '-'}, код ${code || '-'}, этаж ${floor || '-'}, \n${isAsFast ? 'просят как можно скорее' : 'заказ на конкретное время'}, \n${payAfter? 'оплата при получении' : 'оплата онлайн'}, \n${wishCall ? 'просят перезвонить для уточнения' : 'просят не перезванивать'}, \n<pre>клиент оставил комментарий к своему заказу следующего характера: "${comments || 'Очень ждем вкусную и качественную пиццу'}"</pre>`,
-                                chat_id: "-666532020",
-                    
+                                text: `
+                                <b>Клієнт:</b> ${namer}\n<b>Телефон:</b> +${phone}\n■ <b>${type} в ${city[chosenCity].city}</b> за <b>адресою:</b> ${street}, <b>будинок:</b> ${house}${aprts ? `<b>, квартира:</b> ${aprts}` : ''}${entrance ? `<b>, під'їзд:</b> ${entrance}` : ''}${code ? `<b>, код:</b> ${code}` : ''}${floor ? `<b>, поверх:</b> ${floor}`:''} ${isAsFast ? `\n<b>Просять якомога скоріше</b>` : `\n<b>Замовлення на певний час:</b> ${customDate}`} ${wishCall ? `` : '\n\n<b>Просять не передзвонювати</b>'} ${comments ? `\n<b>Коментар до замовлення:</b> ${comments}` : ''}
+                                \n<b>Загальна сума замовлення:</b> ${totalPrice} грн + за доставку ${city[chosenCity].price}${arrOfPizzas}
+                                `, 
+                                chat_id: "-1001721175338",
+                               
                                 }
                             
                             fetch('https://api.telegram.org/bot5775123731:AAEM6weVVyw5rNROu5H2-_EsU9TtI19utVg/sendMessage', {
@@ -283,6 +332,7 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
                                     localStorage.setItem('street', street);
                                     localStorage.setItem('house', house);
                                     localStorage.setItem('aprts', aprts);
+                                    localStorage.setItem('city', chosenCity)
                                     dispatch(resetAllCart());
                                     setOrderSuccess('yes')
                                 }
@@ -290,7 +340,7 @@ const DeliveryForm = ({type, setOrderSuccess})=>{
 
                           
                         }}
-            className="order__submit-btn">Подтвердить заказ</button>
+            className="order__submit-btn">Зробити замовлення</button>
             }
         </form>
     )

@@ -6,12 +6,21 @@ import {useEffect, useRef, useState} from 'react';
 
 import { resetAllCart, minusToCart, plusToCart, deletePositionCart } from '../../features/cartSlice';
 
+
+
 const AsideCart = ()=>{
   //useLocation это хук, чтобы получить доступ к урл. Мы его будем использовать для условного рендеринга кнопки "оформить". Это реакт-роутер
   const path = useLocation().pathname;
   const cartData = useSelector(state => state.cart.cart);
   const totalCountCart = useSelector(state => state.cart.totalCountCart);
   const totalPriceCart = useSelector(state=>state.cart.totalPriceCart);
+
+const loadingBorts = useSelector(state=>state.general.loadingBorts);
+const loadingCatOfIngred = useSelector(state=>state.general.loadingCatOfIngred);
+const loadingIngr = useSelector(state=>state.general.loadingIngr);
+
+
+  
 
 //выбрал компонент ЭСАЙД-КАРТ, который пристально следит за РЕДАКС-СТЭЙТОМ корзины.
 //когда данные в корзине обновляются, мы бросаем тот объект в локалСторэйдж.
@@ -34,6 +43,11 @@ let wasFirstMount = useRef(false);
     )
   })
 
+  //ниже проверка - если произошла ошибка в фетчинге, то вернет пустоту (ведь с этими сущностями мы произодим проверки)
+  if (loadingBorts !== 'ok' || loadingCatOfIngred !== 'ok' || loadingIngr !== 'ok' ){
+    return null
+  }
+
 
     return (
         <aside className="aside-cart">
@@ -42,7 +56,7 @@ let wasFirstMount = useRef(false);
           {path !== '/order' 
           ?
             //еще одна проверка вложенная, чтобы на главной странице нельзя было оформить заказ, если корзина пуста...
-            totalCountCart === 0 ? null : <button className="aside-cart__do-order"><Link to="/order">Оформити замовлення</Link></button>
+            totalCountCart === 0 ? null : <Link className="aside-cart__do-order" to="/order">Оформити замовлення</Link>
           :
           null}
           </div>
@@ -57,6 +71,13 @@ let wasFirstMount = useRef(false);
         <div className="aside-cart__wrapper-for-item">
         {elements}
         </div>
+
+        {path !== '/order' 
+          ?
+            //еще одна проверка вложенная, чтобы на главной странице нельзя было оформить заказ, если корзина пуста...
+            totalCountCart === 0 ? null : <Link className="aside-cart__do-order-bottom" to="/order">Оформити замовлення</Link>
+          :
+          null}
         
         
       </aside>

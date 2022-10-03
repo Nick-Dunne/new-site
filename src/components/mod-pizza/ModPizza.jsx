@@ -5,7 +5,7 @@ import { addToCart } from '../../features/cartSlice';
 //передаем экшен из генерального слайса для открытия-закрытия модального окна
 import { goModify } from '../../features/generalSlice';
 
-import { useEffect,useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AddIngredients from './add-ingredients/AddIngredients';
@@ -13,6 +13,7 @@ import AddIngredients from './add-ingredients/AddIngredients';
  //имортируем наш кастомный хук для определения ширины экрана
  import useMedia768 from '../../hooks/useMedia';
 
+ import {useNavigate, useParams} from 'react-router-dom';
  import PizzaNamePlusCaloriesInfo from '../pizzaNamePlusCaloriesInfo/PizzaNamePlusCaloriesInfo';
 
 import './modPizza.scss';
@@ -32,7 +33,13 @@ import './m-modPizza.scss';
 }
 
 const ModPizza = ()=>{
+     
 
+     
+
+    const navigate = useNavigate();
+    //передаем параметры для запроса, ранее я использовал модивайАЙди, которое получал из редакс стэйта, но пока что так, чтобы была история...
+    const params = useParams();
 
     const isMobile = useMedia768();
     //создам еще дополнительный стэйт для добавления ингредиентов (мобилка)
@@ -51,10 +58,11 @@ const ModPizza = ()=>{
     
     //при создании модификационного модального окна, мы записываем в ГЕНЕРАЛ СТЭЙТ АЙДИ необходимой пиццы (здесь его получаем)
     const modifyId = useSelector(state=>state.general.modifyId);
+
+
     //используем этот АЙДИ, чтобы из массива объектов с пиццами, получить массив только лишь с одной необходимой пиццей
-    const pizzaData = useSelector(state=>state.general.pizzas).filter(item=>item.id === modifyId);
-    //деструктурируем и получаем всю необходимую информацию о пицце для верстки
-    const [{id, img, name, price, descr, category, calories, feature, satiety}] = pizzaData;
+    const pizzaData = useSelector(state=>state.general.pizzas); /* modifyId */
+    
 
 
 
@@ -118,6 +126,28 @@ const ModPizza = ()=>{
         }
     }, [])
 
+    //поскольку у нас есть дополнительные ингредиенты и есть счетчик кол-ва пицц, нам нужно модифицировать цену перед отправкой.
+    //я захотел, чтобы при каждом рендеринге не просчитывалась сумма цен всех дополнительных ингредиентов, поэтому сделал зависимость от обновления РЕАКТ СТЭЙТА (объекта с добавленными ингредиентами). Когда в него вносятся изменения, будет происходить пересчет суммы. С одной стороны я сделал то, что хотел. Но, с другой стороны, компонент рендерится теперь два раза, потому что меняется стэйт дополнительных ингредиентов (рендер), затем реакт понимает, что произошли изменения и вызывает юзЭффект, где просчитывается сумма и вновь меняется стэйт, но уже extrasPriceSum (рендер). Надо будет обратить на это еще внимание.
+    const [extrasPriceSum, setExtrasPriceSum] = useState(0);
+    useEffect(()=>{
+        setExtrasPriceSum(totalPriceExtrasSum(extraIngr));
+    }, [extraIngr])
+
+        //ниже моя уродливая проверка на то, получены ли элементы ()
+        const loadingBorts = useSelector(state=>state.general.loadingBorts);
+        const loadingCatOfIngred = useSelector(state=>state.general.loadingCatOfIngred);
+        const loadingIngr = useSelector(state=>state.general.loadingIngr);
+        const pizzaLoadingStatus = useSelector(state=>state.general.pizzaLoadingStatus);
+      
+        //ниже проверка - если произошла ошибка в фетчинге, то вернет пустоту (ведь с этими сущностями мы произодим проверки)
+        if (loadingBorts !== 'ok' || loadingCatOfIngred !== 'ok' || loadingIngr !== 'ok' || pizzaLoadingStatus === 'error' || pizzaLoadingStatus === 'loading'){
+          return null
+        }
+        //проверка окончена 
+
+        console.log(params.pizzaId)
+    //деструктурируем и получаем всю необходимую информацию о пицце для верстки
+    const [{id, img, name, price, descr, category, calories, feature, satiety, weight}] = pizzaData.filter(item=>item.id == params.pizzaId);
     //ниже работаем с описанием пиццы (порядковые номера), которое будем перебирать и создавать необходимую нам верстку
     const descrElements = descr.map((item, index, arr)=>{
         //класс даем удаленному элементу в зависимости - есть ли такой ингредиент в объекте удаленных объектов (сорри за формулировку)
@@ -161,20 +191,18 @@ const ModPizza = ()=>{
     const fullId = id + bortIndex + descr.join('') + Object.keys(deletedIngr).sort((a,b)=>a-b).join('') + Object.keys(extraIngr).sort((a,b)=>a-b).join('') + 
     Object.keys(extraIngr).sort((a,b)=>a-b).map(item=>extraIngr[item].length).join('');
     
-    //поскольку у нас есть дополнительные ингредиенты и есть счетчик кол-ва пицц, нам нужно модифицировать цену перед отправкой.
-    //я захотел, чтобы при каждом рендеринге не просчитывалась сумма цен всех дополнительных ингредиентов, поэтому сделал зависимость от обновления РЕАКТ СТЭЙТА (объекта с добавленными ингредиентами). Когда в него вносятся изменения, будет происходить пересчет суммы. С одной стороны я сделал то, что хотел. Но, с другой стороны, компонент рендерится теперь два раза, потому что меняется стэйт дополнительных ингредиентов (рендер), затем реакт понимает, что произошли изменения и вызывает юзЭффект, где просчитывается сумма и вновь меняется стэйт, но уже extrasPriceSum (рендер). Надо будет обратить на это еще внимание.
-    const [extrasPriceSum, setExtrasPriceSum] = useState(0);
-    useEffect(()=>{
-        setExtrasPriceSum(totalPriceExtrasSum(extraIngr));
-    }, [extraIngr])
+    
     const modPrice = (price + extrasPriceSum + borts[bortIndex].price) * countModPizza;
   
  
   //ниже условия (если есть определенный элемент массива, то показываем определенный контент, если нет, то ничего)
   const isNew = category.includes('new') ? <span className="pizzablock__isNew">NEW</span> : null;
   const isHit = category.includes('hit') ?  <span className="pizzablock__isHit">ХІТ</span> : null;
-  const isVegan = feature.includes('vegan') ? <span className="pizzablock__special">ВЕГАН</span> : null;
+  const isVegan = category.includes('vegan') ? <span className="pizzablock__special">ВЕГАН</span> : null;
+  const isHot = category.includes('hot') ? <span className='pizzablock__isHot'>HOT</span> : null;
    
+
+
     return (
         <>
         {
@@ -185,7 +213,8 @@ const ModPizza = ()=>{
                 <div className="m-modal__content">
                     {/* ниже убираем крестик, если активно окно добавления ингредиентов */}
                     {!isMobileWantAdd ? <div 
-                    onClick={()=>{dispatch(goModify())}}
+                    onClick={()=>{/* dispatch(goModify()) */
+                            navigate(-1);}}
                     className="m-modal__close">╳</div> 
                     :
                     <div 
@@ -200,8 +229,9 @@ const ModPizza = ()=>{
                         {
                             !isMobileWantAdd ?
                             <>
-                            <h2 className="m-modal__pizza-name">{name}</h2>
-                            <div className="m-modal__specials">{isNew} {isHit} {isVegan}</div>
+                            <div className='m-modal__title-weight-wr'><h2               className="m-modal__pizza-name">{name}</h2>
+                            <span className="m-modal__weight">{weight} | 30 см</span>   </div>
+                            <div className="m-modal__specials">{isNew} {isHit} {isVegan} {isHot}</div>
                              <ul className="modal__pizza-descr m-modal__pizza-descr"> 
                             {descrElements}  </ul>
     
@@ -252,9 +282,9 @@ const ModPizza = ()=>{
                         onClick={()=>{for(let i = 1; i <= countModPizza; i++){
                        
                             dispatch(addToCart({id: fullId, price: modPrice / countModPizza, name, bortName: borts[bortIndex].title, img, deleted:  Object.keys({...deletedIngr}), extra: {...extraIngr}  }))};
-                            
-                            dispatch(goModify())}} 
-                        className="pizzablock__addCart-btn">В корзину</button>
+                            navigate(-1)
+                            /* dispatch(goModify())*/}} 
+                        className="pizzablock__addCart-btn">У кошик</button>
                         </div>
                             </>
                             :
@@ -281,15 +311,19 @@ const ModPizza = ()=>{
             <div
         className="modal"
         //при клике на подложку тоглится модальное окно
-        onClick={()=>{dispatch(goModify())}} >
+        onClick={()=>{/* dispatch(goModify()); */
+                    navigate(-1)}} >
             <div
             className="modal__pizza"
             //c основного контента мы убираем всплытие и, таким образом, при нажатии на него тогла не будет.
             onClick={(e)=>{e.stopPropagation();}} >
+                <div 
+                onClick={()=>{/* dispatch(goModify()) */ navigate(-1);}}
+                    className="m-modal__close">╳</div> 
             <div className="modal__pizza-wrapper">
                 <div className="modal__pizza-col-one">
                     <img className="modal__pizza-img" src={img} alt="" />
-                    <div><strong>ВИДАЛИТИ ІНГРЕДІЄНТИ:</strong></div>
+                    <div><strong>ВИДАЛИТИ ІНГРЕДІЄНТИ ↓</strong></div>
                     <ul className="modal__pizza-descr"> 
                         {descrElements.length !== 0 ? descrElements :
                         'Из стандартных ингредиентов осталось только тесто... ;)' }
@@ -305,6 +339,7 @@ const ModPizza = ()=>{
 
                 <div className="modal__pizza-info">
                     <h2 className='modal__pizzaName'>{name}</h2>
+                    <span className="modal__pizza-weight">{weight} | 30 см</span>
                 </div>
                     
                     
@@ -322,7 +357,7 @@ const ModPizza = ()=>{
                       </div>
 
 
-                    <div className="modal__pizza-additionally-ingr">Додати інгредієнти:</div>
+                    <div className="modal__pizza-additionally-ingr">Додати інгредієнти ↓</div>
                     <AddIngredients formStateWithExtraIngr={formStateWithExtraIngr} extraIngr={extraIngr} minusExtraIngr={minusExtraIngr}/>
 
                     {Object.keys(extraIngr).length ?
@@ -354,9 +389,10 @@ const ModPizza = ()=>{
                         onClick={()=>{for(let i = 1; i <= countModPizza; i++){
                             //ниже в ЦЕНЕ я делю общую цену, которую получил для отображение в этом компоненте, на количество выбранных пицц, чтобы передать в корзину цену как за одну пиццу - чтобы в корзине уже нормально работало увеличение и уменьшение количества
                             dispatch(addToCart({id: fullId, price: modPrice / countModPizza, name, bortName: borts[bortIndex].title, img, deleted:  Object.keys({...deletedIngr}), extra: {...extraIngr}  }))};
-                            
-                            dispatch(goModify())}} 
-                        className="pizzablock__addCart-btn">В корзину</button>
+                            //возвращаемся на главную
+                            navigate(-1)
+                           /*  dispatch(goModify()) */}} 
+                        className="pizzablock__addCart-btn">У кошик</button>
                 </div>
             </div> 
             {/* ниже создам крестик для закрытия    */}

@@ -33,6 +33,11 @@ const Header = ()=>{
                 style={({ isActive }) =>
                   isActive ? activeStyle : undefined
                 }>Про нас</NavLink></li>
+              <li><NavLink
+                to="/legend"
+                style={({ isActive }) =>
+                  isActive ? activeStyle : undefined
+                }>Легенда</NavLink></li>
              
             </ul>
             {/* <div><button 

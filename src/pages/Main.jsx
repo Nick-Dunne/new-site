@@ -3,11 +3,13 @@ import AsideCart from "../components/aside-cart/AsideCart";
 
 import {Outlet} from 'react-router-dom';
 
-
+import Pizzablock from "../components/pizzablock/Pizzablock";
+import Order from "../components/order/Order";
+import { useLocation } from "react-router-dom";
 
 const Main = ()=>{
 
-
+const path = useLocation().pathname;
 
 
     return (
@@ -15,12 +17,13 @@ const Main = ()=>{
         <div className="container">
           <div className="main-wrapper">
           <div className="main-block">
-            {<Outlet/>}
+            {path !== '/order' ?  <Pizzablock/> : <Order/>}
           </div>
           <AsideCart/>
           </div>
         </div>
-      </section>
+        <Outlet/>
+      </section>  
     )
 }
 

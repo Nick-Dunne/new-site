@@ -7,6 +7,9 @@
                 border: none;
                 filter: drop-shadow(0px 0px 3px gray);
             }
+            legend{
+                font-weight: bolder;
+            }
         }
     }
     &__way-to-get{
@@ -33,7 +36,7 @@
     }
     &__custom-date{
         padding: 5px;
-        width: 30%;
+        width: 50%;
         min-height: 50px;
         resize: none;
         margin-top: 15px;
@@ -48,7 +51,7 @@
         border: .5px solid gray;
         border-radius: 5px;
         background-color: var(--lgreen);
-        padding: 2px;
+        padding: 14px;
     }
     &__title{
         font-size: 20px;
@@ -93,6 +96,7 @@
     &__city{
         display: inline-block;
         border-bottom: .5px dotted gray;
+        cursor: pointer;
       
     }
     &__data-fieldset{
@@ -204,3 +208,31 @@
 .order__time-info{
     margin-top: 15px;
 }
+.delivery__cost{
+    font-size: 12px;
+}
+.delivery__city-ul{
+    position: absolute;
+    top: 5px;
+    left: -5px;
+    text-align: left;
+    border-radius: 5px;
+    border: 0.5px solid gray;
+    z-index: 100;
+  
+    background-color: white;
+    .delivery__city-li{
+        font-size: 12px;
+        padding: 5px;
+        transition: .2s all;
+        cursor: pointer;
+        &:hover{
+           background-color: gray;
+        }
+    }
+    
+}
+.order__form-deliveryPrice{
+    text-align: center;
+    font-size: 12px;
+ }

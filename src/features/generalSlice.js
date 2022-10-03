@@ -17,7 +17,7 @@ const initialState = {
     //сюда будет передаваться АЙДИ пиццы, которую будем модифицировать, чтобы уже потом работать с необходимым объектом пиццы из БД
     modifyId: null
 }
-
+/* https://my-json-server.typicode.com/nick-dunne/test-deploy/pizzas */
 //выносим логику за пределы View. Делаем запрос на сервер для получения контента - пицц и ниже ингредиентов.
 //к слову, в этих асинхронных ТХАНКАХ можно вызывать ДИСПАТЧ (взаимосвязь с другими срезами-слайсами)
 export const fetchPizza = createAsyncThunk(
@@ -26,7 +26,7 @@ export const fetchPizza = createAsyncThunk(
     async ({filter, sorting})=>{
         const baseSorting = sorting ? '_sort=' + sorting.cat + '&_order=' + sorting.order : '';
         const baseFilter = filter ? 'q=' + filter + '&' : '';
-       const response = await fetch('http://localhost:4000/pizzas?'+ baseFilter + baseSorting)
+       const response = await fetch('https://my-json-server.typicode.com/nick-dunne/test-deploy/pizzas?'+ baseFilter + baseSorting)
      
        //тут тоже сделал проверку на ок не ок. Обычно не ок, когда адрес другой. Кетч ловит ошибки соединения, в своб очередь... Кстати, второй then реакт не давал мне сделать, поэтому все сделал в одном.
         .then(res=>{
@@ -42,7 +42,7 @@ export const fetchPizza = createAsyncThunk(
 export const fetchBorts = createAsyncThunk(
     'general/fetchBorts',
     async ()=>{
-        const response = await fetch('http://localhost:4000/borts')
+        const response = await fetch('https://my-json-server.typicode.com/nick-dunne/test-deploy/borts')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})
@@ -55,7 +55,7 @@ export const fetchBorts = createAsyncThunk(
 export const fetchIngr = createAsyncThunk(
     'general/fetchIngr',
     async ()=>{
-        const response = await fetch('http://localhost:4000/ingr')
+        const response = await fetch('https://my-json-server.typicode.com/nick-dunne/test-deploy/ingr')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})
@@ -67,7 +67,7 @@ export const fetchIngr = createAsyncThunk(
 export const fetchCatOfIngred = createAsyncThunk(
     'general/fetchCatOfIngred',
     async ()=>{
-        const response = await fetch('http://localhost:4000/catOfIngred')
+        const response = await fetch('https://my-json-server.typicode.com/nick-dunne/test-deploy/catOfIngred')
         .then(res=>{
             if(!res.ok){throw new Error('error')}
             return res.json()})

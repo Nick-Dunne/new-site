@@ -17,6 +17,7 @@ import { addToCart, plusToCart, minusToCart } from '../../features/cartSlice';
  //имортируем наш кастомный хук для определения ширины экрана
  import useMedia768 from '../../hooks/useMedia';
 
+ import {Link} from 'react-router-dom';
 
 
 //в пропсах иp ПиццаЛист приходит объект с данными конкретной пиццы (там у нас map)
@@ -44,12 +45,14 @@ const cartData = useSelector(state=>state.cart.cart);
 
     
   //деструктуризируем объект с данными пиццы (пропсы) и достаем все, что нужно
-    const {id, img, name, price, descr, category, calories, feature, satiety} = info;
+    const {id, img, name, price, descr, category, calories, feature, satiety, weight} = info;
 
     //ниже условия (если есть определенный элемент массива, то показываем определенный контент, если нет, то ничего)
     const isNew = category.includes('new') ? <span className="pizzablock__isNew">NEW</span> : null;
     const isHit = category.includes('hit') ?  <span className="pizzablock__isHit">ХІТ</span> : null;
-    const isVegan = feature.includes('vegan') ? <span className="pizzablock__special">ВЕГАН</span> : null;
+    const isVegan = category.includes('vegan') ? <span className="pizzablock__special">ВЕГАН</span> : null;
+    const isHot = category.includes('hot') ? <span className="pizzablock__isHot">HOT</span> : null;
+    console.log(isHot)
 
     //получу статус загрузки ингредиентов, бортиков...
     const loadingIngr = useSelector((state)=>{return state.general.loadingIngr});
@@ -80,19 +83,23 @@ const cartData = useSelector(state=>state.cart.cart);
         isMobile ?
         <li className="mmi">
           <div className='mmi__img-wr'>
-            {isNew} {isHit} {isVegan}
+            {isNew} {isHit} {isVegan} {isHot}
             <img src={img} alt="" className="mmi__img" />
           </div>
           <div className="mmi__sec-wr">
             <div>
-            <h2 className="mmi__pname">{name}</h2>
+            <div className='mmi-pname-pweight-wr'>
+              <h2 className="mmi__pname">{name}</h2>
+              <span className="mmi__pweight">{weight} | 30 см</span>
+            </div>
             <div className="mmi__pdescr">{translateDescr}</div>
             </div>
             <div className="mmi__info-wr">
-              <span className="mmi__price">от {price} грн</span>
-              <button 
+              <span className="mmi__price">від {price} грн</span>
+             {/*  <button 
               onClick={()=>{dispatch(goModify(id))}}
-              className="mmi__choose">Выбрать</button>
+              className="mmi__choose"></button> */}
+              <Link className="mmi__choose" to={`p/${id}`}>Обрати</Link>
             </div>
           </div>
         </li>
@@ -103,20 +110,22 @@ const cartData = useSelector(state=>state.cart.cart);
 
         <li className="pizzablock__pizza-item"><img className="pizzablock__pizza-img" src={img} alt=""/>
         <div className="pizzablock__more-info">
-          <div>  {isNew} {isHit} </div>
-          <div> {isVegan} 
+          <div>  {isNew} {isHit} {isHot}</div>
+          <div> 
+         
+          {isVegan} 
           <img className='pizzablock__people-man' src={man} alt="" />
           <span className="pizzablock__people">{satiety}</span></div>
         </div>
         {/* вывел калории в отдельный компонент, чтобы своим рендером он не затрагивал другие элементы */}
-        <PizzaNamePlusCaloriesInfo name={name} calories={calories}/>
+        <PizzaNamePlusCaloriesInfo name={name} calories={calories} weight={weight}/>
 
         <div className="pizzablock__pizza-descr">{translateDescr}</div>
         <div className="pizzablock__change-ingr">
           
           <span
-          onClick={()=>{dispatch(goModify(id))}}
-          ><strong>змінити інгредієнти</strong></span></div>
+          onClick={()=>{/* dispatch(goModify(id)) */}}
+          ><strong><Link to={`p/${id}`}>змінити інгредієнти</Link></strong></span></div>
           
         {/* ниже выводим бортики */}
         <div className="modal__borts">

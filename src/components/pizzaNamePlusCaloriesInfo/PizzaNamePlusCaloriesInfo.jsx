@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 
 
-const PizzaNamePlusCaloriesInfo = ({name, calories})=>{
+const PizzaNamePlusCaloriesInfo = ({name, calories, weight})=>{
     const [isComponentVisible, setIsComponentVisible] = useState(false);
     const ref = useRef(null);
     const refSpanInfo = useRef(null);
@@ -26,7 +26,10 @@ const PizzaNamePlusCaloriesInfo = ({name, calories})=>{
     return (
         <>
         <div className="pizzablock__pizza-title-info-wrap">
-        <h3 className="pizzablock__pizza-title">{name}</h3>
+        <div className='pizzablock__title-weight-wr'>
+          <h3 className="pizzablock__pizza-title">{name} </h3>
+          <span className='pizzablock__weight'>{weight} | 30 см</span>
+        </div>
         <span
       ref={refSpanInfo}
         onClick={(e)=>{
@@ -42,7 +45,7 @@ const PizzaNamePlusCaloriesInfo = ({name, calories})=>{
       </div>
       {isComponentVisible &&  <div 
           ref = {ref}
-          className="pizzablock__pizza-calories-popup">В данной пицце {calories} кКал</div>}
+          className="pizzablock__pizza-calories-popup">Ця піца містить {calories} кКал</div>}
         </>
     )
 }

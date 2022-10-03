@@ -12,6 +12,14 @@ import cart from '../../assets/cart.png';
 import { resetAllCart, minusToCart, plusToCart, deletePositionCart } from '../../features/cartSlice';
 
 const ApartCart = ()=>{
+
+  useEffect(()=>{
+    //ниже из нативного джс, поднимает страницу вверх при монтировании (надо, когда переходим с других роутов)
+window.scrollTo({top: 0,
+    lef: 0,
+    behavior: "smooth"});
+}, [])
+
   //useLocation это хук, чтобы получить доступ к урл. Мы его будем использовать для условного рендеринга кнопки "оформить"
   const path = useLocation().pathname;
   const cartData = useSelector(state => state.cart.cart);
@@ -38,6 +46,16 @@ let wasFirstMount = useRef(false);
      <AsideCartItem key={id} name={name} bortName={bortName} price={price} img={img} id={id} deleted={deleted} extra={extra}/>
     )
   })
+  //ниже моя уродливая проверка на то, получены ли элементы
+  const loadingBorts = useSelector(state=>state.general.loadingBorts);
+  const loadingCatOfIngred = useSelector(state=>state.general.loadingCatOfIngred);
+  const loadingIngr = useSelector(state=>state.general.loadingIngr);
+
+  //ниже проверка - если произошла ошибка в фетчинге, то вернет пустоту (ведь с этими сущностями мы произодим проверки)
+  if (loadingBorts !== 'ok' || loadingCatOfIngred !== 'ok' || loadingIngr !== 'ok' ){
+    return null
+  }
+  //проверка окончена
 
 
     return (
@@ -61,11 +79,11 @@ let wasFirstMount = useRef(false);
         <div className="aside-cart__wrapper-for-item apart-cart__wrapper-for-item">
         {elements}
         </div>
-        <button className="apart-cart__return-btn"><Link to="/">Повернутись на головну ⟵</Link></button>
+        <Link className="apart-cart__return-btn" to="/">Повернутись на головну ⟵</Link>
         {path !== '/order' 
           ?
             //еще одна проверка вложенная, чтобы на главной странице нельзя было оформить заказ, если корзина пуста...
-            totalCountCart === 0 ? null : <button className="apart-cart__do-order"><Link to="/order">Оформити замовлення</Link></button>
+            totalCountCart === 0 ? null : <Link className="apart-cart__do-order" to="/order">Оформити замовлення</Link>
           :
           null}
          

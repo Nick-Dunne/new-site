@@ -8,7 +8,7 @@
     display: block;
     width: max-content;
     margin: 15px auto 0 auto;
-    padding: 10px 5px;
+    padding: 10px;
     background-color: var(--lgreen);
     border-radius: 5px;
     border: 0.5px solid gray;
@@ -17,8 +17,7 @@
     margin-top: 1px;
     box-shadow: 0px 0px 6px 0px grey;
     border-radius: 5px;
-
-    max-height: 240px;
+    max-height: 50vh;
 }
 .apart-cart__return-btn{
     display: block;

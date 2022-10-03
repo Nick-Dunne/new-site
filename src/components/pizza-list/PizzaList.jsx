@@ -2,6 +2,9 @@ import PizzaItem from "../pizza-item/PizzaItem";
 
 //это скелетон, заглушка, которая будет показываться, когда асинхронный экшен (его промис) будет в состоянии ожидания (генералСлайс)
 import Skeleton from "../skeleton/Skeleton";
+import MSkeleton from "../skeleton/MSkeleton";
+
+import useMedia768 from "../../hooks/useMedia";
 
 //асинхронные экшены для получения из базы данных пицц и списка ингредиентов
 import { fetchPizza} from "../../features/generalSlice";
@@ -15,6 +18,8 @@ import { useSelector, useDispatch } from "react-redux/es/exports";
 
 //из пропсов получаем информацию для фильтрации и сортировки из родительского ПИЦЦАБЛОК
 const PizzaList=({filter, filtersMore, sorting})=>{
+
+const isMobile = useMedia768();
 
  const dispatch = useDispatch();
 
@@ -42,13 +47,13 @@ const PizzaList=({filter, filtersMore, sorting})=>{
     return (
         <div className="pizzablock__pizza">
         <ul className="pizzablock__pizza-items">
-        <Skeleton/><Skeleton/><Skeleton/><Skeleton/><Skeleton/><Skeleton/>
+          {isMobile ? <><MSkeleton/><MSkeleton/><MSkeleton/><MSkeleton/><MSkeleton/><MSkeleton/></> :<> <Skeleton/><Skeleton/><Skeleton/><Skeleton/><Skeleton/><Skeleton/></>}
        </ul>
         </div>)
   }
   //если ошибка - ошибка
   else if(pizzaLoadingStatus === 'error'){
-    return 'Произошла неизвестная ошибка, попробуйте зайти на сайт позже'
+    return 'Сталася якась помилка, спробуйте пізніше...'
   }
   //два return выше закончат выполнение функции, если нет, то формируем пицца-айтемы, передавая в соответствующие компоненты пропсы в виде объекта с данными конкретной пиццы
   //но тут же мы будем пытаться фильровать результат, если в объекте с допонительными фильтрами что-то есть...

@@ -33,7 +33,7 @@ const countForCat = (cat)=>{
     //создадим переменную, чтобы менять в зависимости от ширина экрана ситли
     const classChosen = isMobile ? 'm-addIngredients__ingr' : 'addIngredients__ingr';
     let ingredientsColorStyle = '';
-    console.log(activeClass)
+
     switch(activeClass.toString()){
         case '2': ingredientsColorStyle = classChosen + ' lred';
         break;
@@ -103,13 +103,13 @@ const countForCat = (cat)=>{
                     : 
                     <div className="aside-cart__footer-config-count">
                     <button 
-                    style={{width: '15px', marginRight: '1px'}}
+                    style={{width: '20px', height: '20px', marginRight: '2px'}}
                     onClick={()=>{minusExtraIngr(item)}}
                     className="aside-cart__min">-</button> 
                     <span
                       className="aside-cart__count">{extraIngr[item].length}</span> 
                     <button
-                    style={{width: '15px', marginLeft: '1px'}}
+                    style={{width: '20px', height: '20px', marginLeft: '2px'}}
                     onClick={()=>{formStateWithExtraIngr(item, allIngredients[item][1])}}
                     className="aside-cart__plus">+</button></div>
                     }

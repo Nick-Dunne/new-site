@@ -14,22 +14,51 @@
     .afterOrder-modal__content{
         position: relative;
         width: 50%;
+        max-width: 800px;
         height: 50%;
-        background-color: white;
-        border-radius: 5px;
-        border: .5px solid gray;
+        max-height: 500px;
+
+        border-radius: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        text-align: center;
+        border-radius: 5px;
+        
+        &-thx{
+            background: no-repeat center / cover url(../../../assets/thx.jpg);
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border: .5px solid gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            border-radius: 20px;
+        }
+        &-err{
+            background-color: var(--lred);
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border: .5px solid gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center; 
+            border-radius:  20px;
+        }
+        
 
-        button{
+        &-btn{
             margin-top: 30px;
             width: 200px;
            border: .5px solid gray;
             border-radius: 5px;
             background-color: var(--lgreen);
+            padding: 3px;
         }
     }
 }

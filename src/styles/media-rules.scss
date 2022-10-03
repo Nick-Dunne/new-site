@@ -74,6 +74,17 @@
 }
 
 @media (max-width: 768px) { 
+    .header__inf{
+        border: none;
+        padding: 0;
+    }
+    .postheader__logo-text{
+        font-size: 40px;
+    }
+    .afterOrder-modal .afterOrder-modal__content{
+        width: 290px;
+        height: 290px;
+    }
     .header__city-ico-wr{
         display: none;
     }
@@ -84,12 +95,21 @@
     .pizzablock__morefilters{
         padding: 2px 5px;
     }
-    .about__title{
+
+  
+    .about__title, .legend__title{
         font-size: 18px;
         margin-bottom: 10px;
     }
-    .about__text, .about__cnt-info{
+    .about__text, .about__cnt-info, .legend__text{
         font-size: 14px;
+    }
+    .legend__descr-img{
+        font-size: 12px;
+        margin-bottom: 9px;
+    }
+    .legend__present-img{
+        margin: 10px auto 2px auto;
     }
     .mmi{
         padding: 10px;

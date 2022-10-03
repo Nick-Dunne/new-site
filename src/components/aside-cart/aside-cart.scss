@@ -9,6 +9,9 @@
     border-radius: 5px;
     border: 2px solid gray;
 }
+.aside-cart__wrapper-for-item{
+    scrollbar-color: var(--grayfund) gray ;
+}
 
 
 .aside-cart__item{
@@ -19,21 +22,21 @@
     
 }
 .aside-cart__body-deleteIngr{
-    color: red;
+    color: var(--red);
     font-size: 12px;
     display: flex;
     flex-wrap: wrap;
-    text-shadow: .5px .5px 1px black;
+  
     li{
         margin-left: 3px;
     }
 }
 .aside-cart__body-extra{
-    color: rgb(255, 247, 0);
+    color: rgb(3 82 24);
     font-size: 12px;
     display: flex;
     flex-wrap: wrap;
-    text-shadow: .5px .5px 1px black;
+  
     li{
         margin-left: 3px;
     }
@@ -49,6 +52,7 @@
 }
 
 .aside-cart__wrapper-for-item{
-    max-height: 65vh;
+    max-height: 57vh;
     overflow-y: scroll;
+    box-shadow: 0 0 6px 0 grey;
 }

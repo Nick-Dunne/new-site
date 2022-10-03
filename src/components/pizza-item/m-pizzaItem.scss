@@ -2,6 +2,15 @@
     display: flex;
     padding: 10px 25px;
     background-color: white;
+    &-pname-pweight-wr{
+        display: flex;
+        align-items: flex-end;
+    }
+    &__pweight{
+        line-height: 18px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
     &__img-wr{
         position: relative;
         width: 35%;
@@ -22,6 +31,11 @@
             bottom: 0;
             right: 0; 
         }
+        .pizzablock__isHot{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
     }
     &__img{
         width: 100%;
@@ -39,21 +53,22 @@
         font-size: 16px;
     }
     &__pdescr{
+        text-transform: lowercase;
         overflow-wrap: break-word;
         font-size: 12px;
     }
     &__info-wr{
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: end;
     }
     &__choose{
-        padding: 2px 5px;
+        padding: 5px 18px;
         background-color: var(--lgreen);
         border-radius: 5px;
         border: 0.5px solid gray;
-        font-size: 14px;
-        &:hover{
+        font-size: 16px;
+        &:active{
             background-color: var(--gray);
         }
     }

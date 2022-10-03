@@ -63,7 +63,20 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
     //далее функционад для понимания - нужно ли перезванивать
     const [wishCall, setWishCall] = useState(true);
 
+    //надо же отправлять данные из корзины...
+    const cartData = useSelector(state=>state.cart.cart);
+    const ingr = useSelector(state=>state.general.ingr);
+    const loadingIngr = useSelector(state=>state.general.loadingIngr);
 
+    if(loadingIngr !== 'ok'){return null};
+    const arrOfPizzas = Object.values(cartData).map((item=>{
+        const {extra} = item[0];
+    
+        const deleted = item[0].deleted.map(item=>`(${ingr[item][0]})`);
+        const extras = Object.keys(extra).map(item=>{return `(${ingr[item][0]} - x${extra[item].length})`}) 
+        return `\n\n➤ <b>х${item.length} - ${item[0].name.toUpperCase()}</b> - ${item[0].price * item.length} грн ||| <b>борт ${item[0].bortName}</b> ${deleted.length !== 0 ? `||| <b>видалено з піци:</b> ${deleted}` : ``} ${extras.length !== 0 ? `||| <b>додано до піци:</b> ${extras}` : ``}`;
+    }));
+    //
 
 
    
@@ -151,7 +164,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
                 onChange={(e)=>{setComments(e.target.value)}}
                 className='order__comments' name="comments" placeholder='залиште повідомлення у цьому текстовому полі, якщо бажаєте...'></textarea>
             </fieldset>
-            <div className="order__form-totalPrice">Всього до сплати {totalPrice} грн</div>
+            <div className="order__form-totalPrice">Вартість замовлення - {totalPrice} грн</div>
             {/* ниже будет проверка. Если сумма нулевая, то вместо кнопки подтверждения заказа - мы будем показывать надпись */}
             {totalPrice == 0 ?
             <div className='order__attention-empty'>Аби зробити замовлення, додайте товар до кошика...</div>
@@ -167,10 +180,11 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
                             setOrderSuccess('pending');
                             const i = {
                                 parse_mode: 'HTML',
-                                text: `<b>Поступил</b> новый заказ от клиента по имени: ${namer}. \nТелефон: ${phone}. 
-                                \nТип заказа: ${type}
-                                \n${isAsFast ? 'просят как можно скорее' : 'заказ на конкретное время'}, \n${wishCall ? 'просят перезвонить для уточнения' : 'просят не перезванивать'}, \n<pre>клиент оставил комментарий к своему заказу следующего характера: "${comments || 'Очень ждем вкусную и качественную пиццу'}"</pre>`,
-                                chat_id: "-666532020",
+                                text: `
+                                <b>Клієнт:</b> ${namer}\n<b>Телефон:</b> +${phone}\n■ <b>${type}</b>${isAsFast ? `\n<b>Просять якомога скоріше</b>` : `\n<b>Замовлення на певний час:</b> ${customDate}`} ${wishCall ? `` : '\n\n<b>Просять не передзвонювати</b>'} ${comments ? `\n<b>Коментар до замовлення:</b> ${comments}` : ''}
+                                \n<b>Загальна сума замовлення:</b> ${totalPrice} грн${arrOfPizzas}
+                                `, 
+                                chat_id: "-1001721175338",
                     
                                 }
                             
@@ -199,7 +213,7 @@ const SelfServiceForm = ({type, setOrderSuccess})=>{
 
                           
                         }}
-            className="order__submit-btn">Подтвердить заказ</button>
+            className="order__submit-btn">Зробити замовлення</button>
             }
         </form>
         

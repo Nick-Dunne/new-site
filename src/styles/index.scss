@@ -75,7 +75,8 @@ pre {
 }
 
 a {
-    background-color: rgba(0, 0, 0, 0)
+    background-color: rgba(0, 0, 0, 0);
+    color: inherit;
 }
 
 abbr[title] {
@@ -141,12 +142,16 @@ button,
 select {
     text-transform: none
 }
+button{
+    color: black;
+}
 
 button,
 [type=button],
 [type=reset],
 [type=submit] {
-    -webkit-appearance: button
+    -webkit-appearance: button;
+
 }
 
 button::-moz-focus-inner,
@@ -334,8 +339,13 @@ header {
 .postheader__menu li:not(:first-child) {
     margin-left: 10px
 }
+.postheader__menu-li{
+    user-select: none;
+    cursor: pointer;
+}
 .postheader__logo-text{
-    font-size: 40px;
+    user-select: none;
+    font-size: 52px;
     font-weight: bolder;
     color: var(--red);
     filter: drop-shadow(1px 1px 1px var(--bg));
@@ -495,7 +505,7 @@ header {
         width: max-content;
         padding: 10px 5px;
         position: absolute;
-        top: 222px;
+        top: 198px;
         right: 20px;
         background-color: white;
         border-radius: 5px;
@@ -503,6 +513,7 @@ header {
     }
 
 .pizzablock__pizza-descr {
+    text-transform: lowercase;
     margin-top: 3px;
     min-height: 70px;
     font-size: 14px;
@@ -644,6 +655,16 @@ header {
     top: -52px;
     left: 50%;
     transform: translateX(-50%);
+}
+.aside-cart__do-order-bottom{
+    display: block;
+    width: -webkit-max-content;
+    width: max-content;
+    margin: 15px auto 0 auto;
+    padding: 2px 5px;
+    background-color: var(--lgreen);
+    border-radius: 5px;
+    border: 0.5px solid gray;
 }
 
 .container {

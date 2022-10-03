@@ -1,12 +1,13 @@
 /* import m2t from '../../assets/M2T.png';
 import logo3 from '../../assets/logo3.png';
  */
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 import phone from '../../assets/phone.svg';
 
 const Postheader = ()=>{
 
+  const path = useLocation().pathname;
 
 
     return (
@@ -16,9 +17,34 @@ const Postheader = ()=>{
           <div className="postheader__wrapper">
              <div className="postheader__logo-menu-wrap">
              {/*  ниже было просто img без класса */}
+             {
+              path !== '/' 
+              ? 
               <Link to="/"> <div className="postheader__logo-text">M2T</div> </Link>
+              :
+              <div
+              onClick={()=>{window.scrollTo({top: 0,
+                lef: 0,
+                behavior: "smooth"});}} 
+              className="postheader__logo-text">M2T</div>
+             }
+              
               <ul className="postheader__menu">
-                <li style={{cursor: 'context-menu'}}><Link to="/">Вітрина</Link></li>
+                {
+                  path !== '/'
+                  ?
+                  <li
+                  className='postheader__menu-li' 
+                  ><Link to="/">Вітрина</Link></li>
+                  :
+                  <li
+                  className='postheader__menu-li' 
+                  onClick={()=>{window.scrollTo({top: 0,
+                    lef: 0,
+                    behavior: "smooth"});}} 
+                  >Вітрина</li>
+                }
+                
               </ul>
               <a className='postheader__phone' href="tel:+38 099 3965 777">
               <svg className='postheader__svg' version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"

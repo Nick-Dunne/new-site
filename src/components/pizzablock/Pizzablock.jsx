@@ -54,6 +54,17 @@ const totalCount = useSelector((state)=>state.cart.totalCountCart);
 }, [isSorting]);
 //паттерн окончен
 
+  //ниже моя уродливая проверка на то, получены ли элементы
+  const loadingBorts = useSelector(state=>state.general.loadingBorts);
+  const loadingCatOfIngred = useSelector(state=>state.general.loadingCatOfIngred);
+  const loadingIngr = useSelector(state=>state.general.loadingIngr);
+
+  //ниже проверка - если произошла ошибка в фетчинге, то вернет пустоту (ведь с этими сущностями мы произодим проверки)
+  if (loadingBorts !== 'ok' || loadingCatOfIngred !== 'ok' || loadingIngr !== 'ok' ){
+    return null
+  }
+  //проверка окончена
+
   const sortItems = liSort.map((item, index)=>{
     return (
     <li 
@@ -106,7 +117,7 @@ const totalCount = useSelector((state)=>state.cart.totalCountCart);
                   {sortItems} </ul> : null}
               </div>
               </div>
-                 {/*  передаем пропс фильтр и сортинг для последующего ХТТП запроса и фильтерсМор тоже для фильтрации, но уже не через запрос (потому что джсон сервер не справляется)*/}
+                 {/*  передаем пропс фильтр и сортинг для последующего ХТТП запроса и фильтерсМор тоже для фильтрации, но уже не через запрос (потому что джсон сервер не справляется c двумя и более запросами)*/}
                   <PizzaList filter={filter} sorting={sorting} filtersMore={filtersMore}/>             
             </div>
 
